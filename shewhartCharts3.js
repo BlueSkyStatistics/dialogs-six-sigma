@@ -39,6 +39,9 @@ var localization = {
 		lower: "LSL - numeric value of lower specification limit to plot a LSL line",
 		upper: "USL - numeric value of upper specification limit to plot a USL line",
 		
+		I_XbarOne_Stddev: "I chart - standard deviation method to be used",
+		MR_R_Stddev: "MR chart - standard deviation method to be used",
+		
 		
 		performTestLabel: "Perform selected tests for special causes",
 		
@@ -63,7 +66,7 @@ var localization = {
 		help: {
             title: "Shewhart charts (xbar.one/I-MR)",
             r_help: "help(qcc, package = qcc)",
-			body: `
+			body:`
 				<b>Description</b></br>
 				qcc function to to perform statistical quality control and to plot Shewhart charts
 				<br/>
@@ -71,9 +74,12 @@ var localization = {
 				For the detail help - use R help(qcc, package = qcc)
 				<br/>
 				<br/>
+				For additional help with the std deviation methods - use R help(sd.xbar.one, package = qcc) and help(sd.R, package = qcc)
+				<br/>
+				<br/>
 				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
 				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, click run
+				Choose diameter to variable(observed..), click run
 				<br/>
 				Additionally, type 1:20 in Grouped rows to be used, click run 
 				<br/>
@@ -153,7 +159,7 @@ if(trimws(chartTypes) != "")
 								phase.names = {{selected.phaseNames | safe}}, 
                                 nsigmas = c({{selected.nsigmas | safe}}), 
 								confidence.level= c({{selected.confidence_level | safe}}), 
-								std.dev = 'SD', 
+								std.dev = '{{selected.I_XbarOne_Stddev | safe}}', 
 								digits ={{selected.digits | safe}}, 
 								spec.limits = list(lsl=c({{selected.lower | safe}}), usl= c({{selected.upper | safe}})),
 								additional.sigma.lines = c({{selected.sdWarnLimits| safe}}),
@@ -177,7 +183,7 @@ if(trimws(chartTypes) != "")
 								phase.names = {{selected.phaseNames | safe}}, 
                                 nsigmas = c({{selected.nsigmas | safe}}), 
 								confidence.level= c({{selected.confidence_level | safe}}), 
-								std.dev = 'UWAVE-R', 
+								std.dev = '{{selected.MR_R_Stddev | safe}}', 
 								digits ={{selected.digits | safe}}, 
 								spec.limits = list(lsl=c({{selected.lower | safe}}), usl= c({{selected.upper | safe}})),
 								additional.sigma.lines = c({{selected.sdWarnLimits| safe}}),
@@ -580,11 +586,35 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
                     placeholder: "",
                     required: false,
                     type: "numeric",
-					style: "mb-2",
+					style: "mb-3",
                     extraction: "TextAsIs",
 					allow_spaces:true,
                     value: "",
 					width: "w-25",
+                })
+            },
+			I_XbarOne_Stddev: {
+                el: new selectVar(config, {
+                    no: 'I_XbarOne_Stddev',
+                    label: localization.en.I_XbarOne_Stddev,
+                    multiple: false,
+                    extraction: "NoPrefix|UseComma",
+                    options: ["MR", "SD"],
+                    default: "MR",
+					//style: "mb-3",
+					//width: "w-25",
+                })
+            },
+			MR_R_Stddev: {
+                el: new selectVar(config, {
+                    no: 'MR_R_Stddev',
+                    label: localization.en.MR_R_Stddev,
+                    multiple: false,
+                    extraction: "NoPrefix|UseComma",
+                    options: ["UWAVE-R", "MVLUE-R"],
+                    default: "UWAVE-R",
+					style: "mb-3",
+					//width: "w-25",
                 })
             },
 			performTestLabel: { 
@@ -820,7 +850,10 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 					//objects.target.el.content 
 					objects.sdWarnLimits.el.content, 
 					
-					objects.digits.el.content,
+					objects.digits.el.content, 
+					
+					objects.I_XbarOne_Stddev.el.content,
+					objects.MR_R_Stddev.el.content,
 					
 					objects.printStatChk.el.content, 
 					objects.printObjectSummaryChk.el.content,
