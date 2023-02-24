@@ -7,27 +7,27 @@ var localization = {
 		//chartTypeXbarChk: "xbar chart",
 		
 		summaryPlotChk: "Plot the underlying xbar and xbar.one charts used for computing the process capability",
+		printObjectSummaryChk: "Print QCC object summary",
 		
-		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
+		label1: "Two options - either select a variable (and a grouping variable as needed) or select the variables in dataset if already grouped",
+		
+		label2: "Advanced options",
 		
 		selectVariableRad: "Option 1: Select a variable from the dataset (optionally that may need to be grouped)",
-		variableSelcted: "Variable (observed data) to chart (for xbar and xbar.one)",
-		//groupingNeededChk: "Required for xbar - Variable to use for grouping data",
-		groupingVariable: "Grouping Variable (needed for xbar and not needed for xbar.one)",
-		variableControlLimits: "Rows to be discarded if any before grouping for variable control limits e.g. specify as 1:25 or 1,4,5,7:12",
-		displayGroupsChk: "Display the groupings on the dataset UI grid",
+		variableSelcted: "Select a variable (observed data) to analyze",
+		groupingVariable: "Grouping variable (optional - if the data needs to be grouped)",
+		variableControlLimits: "Data rows to be discarded, if any, before grouping for variable control limits ( e.g. specify as 1:25 or 1,4,5,7:12)",
+		displayGroupsChk: "Display the groupings on the dataset UI grid for reference only",
 		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped (for xbar - not for xbar.one)",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to chart", 
+		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
+		variablelistSelcted: "Select one or more grouped variables (observed data) to analyze", 
 		
-		rowsTobeUsed: "Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		//rowsTobeUsedAsNewData: "New Data - grouped Rows to be used as New Data to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the computations",
+		rowsTobeUsed: "If selected (grouped) rows to be used to analyze for process capability ( e.g.  specify as 1:25 or 1,4,5,7:12)",
 		nsigmas: "Sigma - number of sigmas to use for computing control limits",
 		confidence_level: "A numeric value between 0 and 1 specifying the level to use for computing confidence intervals",
 		stddev: "Standard deviation method for calculating xbar (for group size > 1)", 
 		//sdWarnLimits: "Add warning limits (e.g. 2) at the specific std. deviations (for xbar charts only)",
 		
-		//processCapabilityChk: "Process capability analysis (with xbar chart)",
 		lower: "LSL - numeric value of lower specification limit (type NA to specify one-sided specification limits)",
 		upper: "USL - numeric value of upper specification limit (type NA to specify one-sided specification limits)",
 		target: "Target specification limits (optional)",
@@ -79,22 +79,19 @@ require(qcc)
 	
 {{if(options.selected.lower === 'NA' && options.selected.upper === 'NA')}}
 	BSkyFormat("\nError: LSL or USL or both must be specified\n")
-
 {{#else}}
-
-	if(c('{{selected.gpbox1 | safe}}') == "variable"){
+	{{if(options.selected.gpbox1 === 'variable')}}
 		
 		data_name = '{{selected.variableSelcted | safe}}{{if(options.selected.rowsTobeUsed !== "")}} [c({{selected.rowsTobeUsed | safe}})] {{/if}}'
 		
-		if(length(trimws(c({{selected.variableControlLimits | safe}}))) != 0){
-			
-			if(trimws('{{selected.groupingVariable | safe}}') != ""){
+		{{if(options.selected.variableControlLimits !== '')}}
+			{{if(options.selected.groupingVariable !== '')}}
 				selectedData_variable_control_limit = with({{dataset.name}}, qcc.groups(c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})], c({{selected.groupingVariable | safe}})[-c({{selected.variableControlLimits | safe}})]))
 				
-				if({{selected.displayGroupsChk | safe}}){
+				{{if(options.selected.displayGroupsChk === 'TRUE')}}
 					{{selected.variableSelcted | safe}}ControlLimit = as.data.frame(selectedData_variable_control_limit)
 					BSkyLoadRefresh('{{selected.variableSelcted | safe}}ControlLimit')
-				}
+				{{/if}}
 				
 				sample_size = dim(selectedData_variable_control_limit)[2]
 				
@@ -113,7 +110,7 @@ require(qcc)
 									data.name = paste(data_name, "( variable sample size of ",sample_size, ")"),
 									nsigmas = c({{selected.nsigmas | safe}}) {{selected.confidence_level | safe}})
 			
-			}else{
+			{{#else}}
 				selectedData_variable_control_limit = with({{dataset.name}}, c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})])
 				
 				sample_size = 1
@@ -129,17 +126,19 @@ require(qcc)
 															data = selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}], 
 															data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 															nsigmas = c({{selected.nsigmas | safe}}))) 
-			}
-		}else{
-			if(trimws('{{selected.groupingVariable | safe}}') != ""){
+			{{/if}}
+		{{#else}}
+			{{if(options.selected.groupingVariable !== '')}}
 				selectedData = with({{dataset.name}}, qcc::qcc.groups(c({{selected.variableSelcted | safe}}), c({{selected.groupingVariable | safe}})))
 			
 				sample_size = dim(selectedData)[2]
 				
-				if({{selected.displayGroupsChk | safe}} && !is.null(selectedData)){
-					{{selected.variableSelcted | safe}}Gpd = as.data.frame(selectedData)
-					BSkyLoadRefresh('{{selected.variableSelcted | safe}}Gpd')
-				}
+				{{if(options.selected.displayGroupsChk === 'TRUE')}}
+					if(!is.null(selectedData)){
+						{{selected.variableSelcted | safe}}Gpd = as.data.frame(selectedData)
+						BSkyLoadRefresh('{{selected.variableSelcted | safe}}Gpd')
+					}
+				{{/if}}
 				
 				qccXOneOverall = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 									type="xbar.one", std.dev = 'SD', 
@@ -152,7 +151,7 @@ require(qcc)
 									data = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
 									data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 									nsigmas = c({{selected.nsigmas | safe}})) 
-			}else{
+			{{#else}}
 				sample_size = 1
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
@@ -166,16 +165,16 @@ require(qcc)
 															data = c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}], 
 															data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 															nsigmas = c({{selected.nsigmas | safe}})))
-			}
-		}
-	}else{
+			{{/if}}
+		{{/if}}
+	{{#else}}
 		data_name = '{{dataset.name}}{{if(options.selected.rowsTobeUsed !== "")}} [c({{selected.rowsTobeUsed | safe}}),] {{/if}}'
 		
-		if(length(c({{selected.variablelistSelcted | safe}})) == 0){
+		{{if(options.selected.variablelistSelcted === '')}}
 			selectedData = {{dataset.name}}[]
-		}else{
+		{{#else}}
 			selectedData = {{dataset.name}}[, c({{selected.variablelistSelcted | safe}})]
-		}
+		{{/if}}
 		
 		sample_size = dim(selectedData)[2]
 		
@@ -190,36 +189,52 @@ require(qcc)
 							data = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
 							data.name = paste(data_name, "( sample size of ",sample_size, ")"),															
 							nsigmas = c({{selected.nsigmas | safe}}))
-	}
+	{{/if}}
 	
 	
 	if(!is.null(qccXOneOverall)){
-		
 		BSkyFormat(paste("Overall Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
-		process.capability.enhanced(qccXOneOverall {{selected.confidence_level | safe}}, digits = {{selected.digits | safe}}, nsigmas = c({{selected.nsigmas | safe}}), print = TRUE, capability.type = "overall", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
+		process.capability.enhanced(qccXOneOverall {{selected.confidence_level | safe}}, 
+									digits = {{selected.digits | safe}}, 
+									nsigmas = c({{selected.nsigmas | safe}}), 
+									print = {{selected.printObjectSummaryChk | safe}}, 
+									capability.type = "overall", 
+									spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
 	}
 	
 	if(!is.null(qccXPotential)){
 		BSkyFormat(paste("Potential (Within) Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
-		process.capability.enhanced(qccXPotential {{selected.confidence_level | safe}}, digits = {{selected.digits | safe}}, nsigmas = c({{selected.nsigmas | safe}}), print = TRUE, capability.type = "potential", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
+		process.capability.enhanced(qccXPotential {{selected.confidence_level | safe}}, 
+									digits = {{selected.digits | safe}}, 
+									nsigmas = c({{selected.nsigmas | safe}}), 
+									print = {{selected.printObjectSummaryChk | safe}}, 
+									capability.type = "potential", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
 	}else{
 		BSkyFormat(paste("Potential (Within) Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
-		process.capability.enhanced(qccXOnePotential {{selected.confidence_level | safe}}, digits = {{selected.digits | safe}}, nsigmas = c({{selected.nsigmas | safe}}), print = TRUE, capability.type = "potential", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
+		process.capability.enhanced(qccXOnePotential {{selected.confidence_level | safe}}, 
+									digits = {{selected.digits | safe}}, 
+									nsigmas = c({{selected.nsigmas | safe}}), 
+									print = {{selected.printObjectSummaryChk | safe}}, 
+									capability.type = "potential", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
 	}
 	
-	if({{selected.summaryPlotChk | safe}} && !is.null(qccXOneOverall)){
-		
-		BSkyFormat(paste("xbar.one Chart Used for Computing Overall Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-		plot(qccXOneOverall, digits = {{selected.digits | safe}}) 
-	}
 	
-	if({{selected.summaryPlotChk | safe}} && !is.null(qccXPotential)){
-		BSkyFormat(paste("xbar Chart Used for Computing Potential (Within) Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-		plot(qccXPotential, digits = {{selected.digits | safe}})
-	}else if({{selected.summaryPlotChk | safe}}){
-		BSkyFormat(paste("xbar.one Chart Used for Computing Potential Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-		plot(qccXOnePotential, digits = {{selected.digits | safe}})
-	}
+	{{if(options.selected.summaryPlotChk === 'TRUE')}}
+		if(!is.null(qccXOneOverall)){
+			BSkyFormat(paste("xbar.one Chart Used for Computing Overall Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
+			plot(qccXOneOverall, digits = {{selected.digits | safe}}) 
+		}
+	{{/if}}
+	
+	{{if(options.selected.summaryPlotChk === 'TRUE')}}
+		if(!is.null(qccXPotential)){
+			BSkyFormat(paste("xbar Chart Used for Computing Potential (Within) Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
+			plot(qccXPotential, digits = {{selected.digits | safe}})
+		}else{
+			BSkyFormat(paste("xbar.one Chart Used for Computing Potential Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
+			plot(qccXOnePotential, digits = {{selected.digits | safe}})
+		}
+	{{/if}}
 
 {{/if}}
 
@@ -227,10 +242,17 @@ require(qcc)
         };
         var objects = {
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) },
+			label1: { 
+				el: new labelVar(config, { 
+					label: localization.en.label1, 
+					h: 6, 
+					style: "mb-2",
+				}) 
+			},
 			label2: { 
 				el: new labelVar(config, { 
 					label: localization.en.label2, 
-					h: 6, 
+					h: 4, 
 					style: "mb-2",
 				}) 
 			},
@@ -310,18 +332,6 @@ require(qcc)
 					newline: true,
                 })
             },
-			summaryPlotChk: {
-                el: new checkbox(config, {
-                    label: localization.en.summaryPlotChk, 
-					no: "summaryPlotChk",
-                    bs_type: "valuebox",
-                    style: "mt-2 mb-3",
-                    extraction: "BooleanValue",
-                    true_value: "TRUE",
-                    false_value: "FALSE",
-					newline: true,
-                })
-            },
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
@@ -342,7 +352,7 @@ require(qcc)
                     placeholder: "",
                     required: false,
                     type: "character",
-					//style: "ml-5",
+					style: "mb-4",
                     extraction: "TextAsIs",
 					allow_spaces:true,
                     value: "",
@@ -374,6 +384,7 @@ require(qcc)
                     value: "0.95",
 					wrapped: ', confidence.level=c(%val%)',
 					width: "w-25",
+					//style: "mb-2",
                 })
             },
 			lower: {
@@ -442,12 +453,36 @@ require(qcc)
 					width: "w-25",
 					style: "mb-2",
                 })
-            },              
+            }, 
+			printObjectSummaryChk: {
+                el: new checkbox(config, {
+                    label: localization.en.printObjectSummaryChk, 
+					no: "printObjectSummaryChk",
+                    bs_type: "valuebox",
+                    style: "mt-2 mb-3",
+                    extraction: "BooleanValue",
+                    true_value: "TRUE",
+                    false_value: "FALSE",
+					newline: true,
+                })
+            },
+			summaryPlotChk: {
+                el: new checkbox(config, {
+                    label: localization.en.summaryPlotChk, 
+					no: "summaryPlotChk",
+                    bs_type: "valuebox",
+                    style: "mt-2 mb-3",
+                    extraction: "BooleanValue",
+                    true_value: "TRUE",
+                    false_value: "FALSE",
+					newline: true,
+                })
+            },
         };
         const content = {
             left: [objects.content_var.el.content],
             right: [
-					objects.label2.el.content,
+					objects.label1.el.content,
 					objects.selectVariableRad.el.content,
 					objects.variableSelcted.el.content, 
 					
@@ -464,10 +499,12 @@ require(qcc)
 					
 					objects.rowsTobeUsed.el.content,
 					
+					objects.label2.el.content,
 					objects.nsigmas.el.content,
 					objects.confidence_level.el.content,
 					objects.stddev.el.content,
-					objects.digits.el.content,
+					objects.digits.el.content, 
+					objects.printObjectSummaryChk.el.content,
 					objects.summaryPlotChk.el.content
 					],
             nav: {
