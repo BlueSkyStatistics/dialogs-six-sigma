@@ -7,7 +7,8 @@ var localization = {
 		//chartTypeXbarChk: "xbar chart",
 		
 		summaryPlotChk: "Plot the underlying xbar and xbar.one charts used for computing the process capability",
-		printObjectSummaryChk: "Print QCC object summary",
+		displaySLlineonPlotChk: "Display LSL and USL lines on the underlying plots",
+		printObjectSummaryChk: "Print QCC object summary for the process capability",
 		
 		label1: "Two options - either select a variable (and a grouping variable as needed) or select the variables in dataset if already grouped",
 		
@@ -74,6 +75,11 @@ require(qcc)
 	qccXOneOverall = NULL
 	qccXPotential = NULL 
 	qccXOnePotential = NULL
+	dataOverall = NULL
+	dataPotential = NULL
+	xbar.overall.qcc.objects = NULL
+	xbar.potential.qcc.objects = NULL
+	
 	sample_size = 1
 	
 	
@@ -96,7 +102,11 @@ require(qcc)
 				sample_size = dim(selectedData_variable_control_limit)[2]
 				
 				selectedData_variable_control_limitNonNAs = selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
+				selectedData_variable_control_limitNonNAs = as.vector(as.matrix(t(selectedData_variable_control_limitNonNAs)))
 				selectedData_variable_control_limitNonNAs = selectedData_variable_control_limitNonNAs[!is.na(selectedData_variable_control_limitNonNAs)]
+				
+				dataOverall = with({{dataset.name}}, selectedData_variable_control_limitNonNAs)
+				dataPotential = selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 														type="xbar.one", std.dev = "SD", 
@@ -108,12 +118,15 @@ require(qcc)
 									type="xbar", std.dev = '{{selected.stddev | safe}}', 
 									data = selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
 									data.name = paste(data_name, "( variable sample size of ",sample_size, ")"),
-									nsigmas = c({{selected.nsigmas | safe}}) {{selected.confidence_level | safe}})
+									nsigmas = c({{selected.nsigmas | safe}}))
 			
 			{{#else}}
 				selectedData_variable_control_limit = with({{dataset.name}}, c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})])
 				
 				sample_size = 1
+				
+				dataOverall   = with({{dataset.name}}, selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
+				dataPotential = with({{dataset.name}}, selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 																type="xbar.one", std.dev = "SD", 
@@ -140,9 +153,12 @@ require(qcc)
 					}
 				{{/if}}
 				
+				dataOverall = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}])))
+				dataPotential = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
+				
 				qccXOneOverall = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 									type="xbar.one", std.dev = 'SD', 
-									data = unlist(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]), 
+									data = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]))), 
 									data.name = paste(data_name, "( sample size of ",sample_size, ")"),								
 									nsigmas = c({{selected.nsigmas | safe}})) 
 				
@@ -153,6 +169,9 @@ require(qcc)
 									nsigmas = c({{selected.nsigmas | safe}})) 
 			{{#else}}
 				sample_size = 1
+				
+				dataOverall =  with({{dataset.name}}, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
+				dataPotential = with({{dataset.name}}, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 															type="xbar.one", std.dev = "SD", 
@@ -178,9 +197,16 @@ require(qcc)
 		
 		sample_size = dim(selectedData)[2]
 		
+		selectedData_variable_control_limitNonNAs = with({{dataset.name}}, selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}])
+		selectedData_variable_control_limitNonNAs = as.vector(as.matrix(t(selectedData_variable_control_limitNonNAs)))
+		selectedData_variable_control_limitNonNAs = selectedData_variable_control_limitNonNAs[!is.na(selectedData_variable_control_limitNonNAs)]
+				
+		dataOverall = selectedData_variable_control_limitNonNAs
+		dataPotential = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
+		
 		qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 													type="xbar.one", std.dev = "SD", 
-													data = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
+													data = selectedData_variable_control_limitNonNAs, 
 													data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 													nsigmas = c({{selected.nsigmas | safe}})))
 
@@ -193,7 +219,7 @@ require(qcc)
 	
 	
 	if(!is.null(qccXOneOverall)){
-		BSkyFormat(paste("Overall Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
+		BSkyFormat(paste("Overall Process Capability Indices for ", data_name, "from dataset {{dataset.name}}"))
 		process.capability.enhanced(qccXOneOverall {{selected.confidence_level | safe}}, 
 									digits = {{selected.digits | safe}}, 
 									nsigmas = c({{selected.nsigmas | safe}}), 
@@ -203,14 +229,14 @@ require(qcc)
 	}
 	
 	if(!is.null(qccXPotential)){
-		BSkyFormat(paste("Potential (Within) Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
+		BSkyFormat(paste("\nPotential (Within) Process Capability Indices for ", data_name, "from dataset {{dataset.name}}"))
 		process.capability.enhanced(qccXPotential {{selected.confidence_level | safe}}, 
 									digits = {{selected.digits | safe}}, 
 									nsigmas = c({{selected.nsigmas | safe}}), 
 									print = {{selected.printObjectSummaryChk | safe}}, 
 									capability.type = "potential", spec.limits=c(c({{selected.lower | safe}}),c({{selected.upper | safe}})) {{selected.target | safe}})
 	}else{
-		BSkyFormat(paste("Potential (Within) Process Capability Indices for ", data_name, "( sample size of ",sample_size, ")"))
+		BSkyFormat(paste("\nPotential (Within) Process Capability Indices for ", data_name, "from dataset {{dataset.name}}"))
 		process.capability.enhanced(qccXOnePotential {{selected.confidence_level | safe}}, 
 									digits = {{selected.digits | safe}}, 
 									nsigmas = c({{selected.nsigmas | safe}}), 
@@ -220,20 +246,78 @@ require(qcc)
 	
 	
 	{{if(options.selected.summaryPlotChk === 'TRUE')}}
+		BSkySetSixSigmaTestOptions(digits = {{selected.digits | safe}})
+		
 		if(!is.null(qccXOneOverall)){
-			BSkyFormat(paste("xbar.one Chart Used for Computing Overall Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-			plot(qccXOneOverall, digits = {{selected.digits | safe}}) 
+			BSkyFormat(paste("\nxbar.one chart used for computing Overall Process Capability Indices for ", data_name))
+			
+			xbar.overall.qcc.objects = plot.qcc.spc.phases(
+										type = 'xbar.one',
+										data = dataOverall, 
+										data.name = data_name,
+										chart.title.name = 'I (xbar.one)',
+										ylab = "Individual value",
+										xlab = "Observation", 
+										std.dev = 'SD',  
+										digits = {{selected.digits | safe}}, 
+										{{if(options.selected.displaySLlineonPlotChk === 'TRUE')}}
+											spec.limits = list(lsl=c({{selected.lower | safe}}), usl= c({{selected.upper | safe}})),
+										{{/if}}
+										nsigmas = c({{selected.nsigmas | safe}}) 
+									)
+		}
+		if(!is.null(qccXOneOverall)){
+			print.qcc.spc.phases(
+								qcc.spc.phases.obects = xbar.overall.qcc.objects,
+								chart.title.name = 'I (xbar.one)',
+								print.stats = TRUE, 
+								print.test.summary = TRUE, 
+								digits = {{selected.digits | safe}} 
+								)
 		}
 	{{/if}}
 	
 	{{if(options.selected.summaryPlotChk === 'TRUE')}}
 		if(!is.null(qccXPotential)){
-			BSkyFormat(paste("xbar Chart Used for Computing Potential (Within) Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-			plot(qccXPotential, digits = {{selected.digits | safe}})
+			BSkyFormat(paste("xbar chart used for computing Potential (Within) Process Capability Indices for ", data_name))
+			#plot(qccXPotential, digits = {{selected.digits | safe}})
+			chart_type = 'xbar'
+			chart_title = 'xbar'
+			ylab_title = "Group summary statistics"
+			xlab_title = "Group"
+			stddev = '{{selected.stddev | safe}}'
 		}else{
-			BSkyFormat(paste("xbar.one Chart Used for Computing Potential Process Capability Indices for ", data_name, "(sample size of ",sample_size, ")"))
-			plot(qccXOnePotential, digits = {{selected.digits | safe}})
+			BSkyFormat(paste("xbar.one Chart Used for Computing Potential Process Capability Indices for ", data_name))
+			#plot(qccXOnePotential, digits = {{selected.digits | safe}})
+			chart_type = 'xbar.one'
+			chart_title = 'xbar.one'
+			ylab_title = "Individual value"
+			xlab_title = "Observation"
+			stddev = 'MR'
 		}
+		
+		xbar.potential.qcc.objects = plot.qcc.spc.phases(
+										type = chart_type,
+										data = dataPotential, 
+										data.name = data_name,
+										chart.title.name = chart_title,
+										ylab = ylab_title,
+										xlab = xlab_title, 
+										std.dev = stddev,  
+										digits = {{selected.digits | safe}}, 
+										{{if(options.selected.displaySLlineonPlotChk === 'TRUE')}}
+											spec.limits = list(lsl=c({{selected.lower | safe}}), usl= c({{selected.upper | safe}})),
+										{{/if}}
+										nsigmas = c({{selected.nsigmas | safe}}) 
+									)
+				
+		print.qcc.spc.phases(
+								qcc.spc.phases.obects = xbar.potential.qcc.objects,
+								chart.title.name = chart_title,
+								print.stats = TRUE, 
+								print.test.summary = TRUE, 
+								digits = {{selected.digits | safe}} 
+							)
 	{{/if}}
 
 {{/if}}
@@ -466,12 +550,24 @@ require(qcc)
 					newline: true,
                 })
             },
-			summaryPlotChk: {
+			summaryPlotChk: { 
                 el: new checkbox(config, {
                     label: localization.en.summaryPlotChk, 
 					no: "summaryPlotChk",
                     bs_type: "valuebox",
-                    style: "mt-2 mb-3",
+                    style: "mt-2",
+                    extraction: "BooleanValue",
+                    true_value: "TRUE",
+                    false_value: "FALSE",
+					newline: true,
+                })
+            },
+			displaySLlineonPlotChk: { 
+                el: new checkbox(config, {
+                    label: localization.en.displaySLlineonPlotChk, 
+					no: "displaySLlineonPlotChk",
+                    bs_type: "valuebox",
+                    style: "ml-3 mb-3",
                     extraction: "BooleanValue",
                     true_value: "TRUE",
                     false_value: "FALSE",
@@ -504,8 +600,9 @@ require(qcc)
 					objects.confidence_level.el.content,
 					objects.stddev.el.content,
 					objects.digits.el.content, 
-					objects.printObjectSummaryChk.el.content,
-					objects.summaryPlotChk.el.content
+					objects.summaryPlotChk.el.content,
+					objects.displaySLlineonPlotChk.el.content,
+					objects.printObjectSummaryChk.el.content
 					],
             nav: {
                 name: localization.en.navigation,
