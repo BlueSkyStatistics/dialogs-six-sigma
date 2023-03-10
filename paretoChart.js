@@ -4,19 +4,19 @@ var localization = {
         title: "Pareto Chart",
 		navigation: "Pareto Chart",
 		
-		label1: "Two options - Long format (default) i.e. defects and counts in vertical columns and Wide format i.e. defects as column names and counts as row",
-		selectLongRad: "Option 1: Long format - choose defects category and defect counts",
-		selectWideRad: "Option 2: Wide format - Columns names will be used as defects category and 1st row (default) will be used as counts",
+		label1: "Two options - Long format (default) i.e. categories and counts in vertical columns and Wide format i.e. categories as column names and counts as row",
+		selectLongRad: "Option 1: Long format - choose categories and counts",
+		selectWideRad: "Option 2: Wide format - Columns names will be used as categories and 1st row (default) will be used as counts",
 		rownumForCounts: "Row number (default 1st row) to be used for counts",
 		
 		mainTitle: "Chart Title",
-		defects: "Variable (e.g. defects) to plot",
+		category: "Variable (e.g. categories) to plot",
 		counts: "Variable to use as counts to plot",
         xlab: "A string specifying the label for the x-axis",
         ylab: "A string specifying the label for the y-axis",
 		ylab2: "A string specifying the label for the second y-axis on the right side",
 		percentStep: "Percentage step to be used as tickmarks for the second y-axis on the right side",
-		digits: "Number of decimal points for stat table",
+		digits: "Number of decimal points for the Stats table",
 		
 		help: {
             title: "Pareto Chart",
@@ -48,33 +48,49 @@ require(qcc)
 
 #Plot Pareto Chart
 
-defectsFreq = NULL
+categoryFreq = NULL
 xstats = NULL
 
 {{if(options.selected.gpbox1 === 'long')}}
 	BSkyFormat("\nInput data is in long format\n")
-	defectsFreq = as.numeric({{dataset.name}}[,c({{selected.counts | safe}})])
-	names(defectsFreq) = as.character({{dataset.name}}[,c({{selected.defects | safe}})])
+	{{if(options.selected.category !== '' && options.selected.counts !== '')}}
+		categoryFreq = as.numeric({{dataset.name}}[,c({{selected.counts | safe}})])
+		names(categoryFreq) = as.character({{dataset.name}}[,c({{selected.category | safe}})])
+	{{#else}}
+	BSkyFormat("\nSelect variables for both categories and counts fields\n")
+	{{/if}}
 {{#else}}
 	BSkyFormat("\nInput data is in wide format\n")
-	defectsFreq = as.numeric({{dataset.name}}[c({{selected.rownumForCounts | safe}}),])
-	names(defectsFreq) = names({{dataset.name}})
+	categoryFreq = as.numeric({{dataset.name}}[c({{selected.rownumForCounts | safe}}),])
+	names(categoryFreq) = names({{dataset.name}})
 {{/if}}
 
 
-s_defectsFreq = sort(defectsFreq, decreasing = TRUE)
-xstats = rbind(s_defectsFreq, cumsum(s_defectsFreq))
-pct = (round(s_defectsFreq/sum(s_defectsFreq), 4))*100
-xstats = rbind(xstats, pct)
-xstats = rbind(xstats, cumsum(pct))
-dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
-
-	dummyParetoReturn = qcc::pareto.chart(defectsFreq, xlab = '{{selected.xlab | safe}}', ylab = '{{selected.ylab | safe}}', ylab2 = '{{selected.ylab2 | safe}}',
-					cumperc = seq(0, 100, by = {{selected.percentStep | safe}}), main = '{{selected.mainTitle | safe}}')
-
-	#xstats = data.frame(t(unclass(dummyParetoReturn)))
+if(!is.null(categoryFreq))
+{
+	s_categoryFreq = base::sort(categoryFreq, decreasing = TRUE)
 	
-	BSkyFormat(xstats, decimalDigitsRounding = c({{selected.digits | safe}}))
+	if(!is.null(categoryFreq))
+	{
+		xstats = rbind(s_categoryFreq, cumsum(s_categoryFreq))
+		
+		if(!is.null(xstats))
+		{
+			pct = (round(s_categoryFreq/sum(s_categoryFreq), 4))*100
+			xstats = rbind(xstats, pct)
+			xstats = rbind(xstats, cumsum(pct))
+			dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
+
+			dummyParetoReturn = qcc::pareto.chart(categoryFreq, xlab = '{{selected.xlab | safe}}', ylab = '{{selected.ylab | safe}}', ylab2 = '{{selected.ylab2 | safe}}',
+								cumperc = seq(0, 100, by = {{selected.percentStep | safe}}), main = '{{selected.mainTitle | safe}}')
+		}
+	}
+}
+
+if(!is.null(xstats))
+{
+	BSkyFormat(xstats, outputTableRenames = "Stats", decimalDigitsRounding = c({{selected.digits | safe}}))
+}
 
 `
         };
@@ -130,13 +146,13 @@ dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
                     type: "character",
                     extraction: "TextAsIs",
 					allow_spaces:true,
-                    value: "Pareto Chart for Defects"
+                    value: "Pareto Chart for Categories"
                 })
             },
-			defects: {
+			category: {
                 el: new dstVariable(config, {
-                    label: localization.en.defects,
-                    no: "defects",
+                    label: localization.en.category,
+                    no: "category",
                     //required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
                     extraction: "NoPrefix|Enclosed",
@@ -160,7 +176,7 @@ dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
                     type: "character",
                     extraction: "TextAsIs",
 					allow_spaces:true,
-                    value: "Defects",
+                    value: "Categories",
                 })
             },
 			ylab: {
@@ -172,7 +188,7 @@ dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
                     type: "character",
                     extraction: "TextAsIs",
 					allow_spaces:true,
-                    value: "Defects frequency",
+                    value: "Category frequency",
                 })
             },
 			ylab2: {
@@ -218,7 +234,7 @@ dimnames(xstats)[[1]] = c("Count", "Cum Count", "Percent", "Cum %")
             right: [objects.label1.el.content, 
 					objects.selectLongRad.el.content,
 					
-					objects.defects.el.content,
+					objects.category.el.content,
 					objects.counts.el.content,
 					
 					objects.selectWideRad.el.content,
