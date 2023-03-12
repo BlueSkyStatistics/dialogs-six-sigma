@@ -31,12 +31,13 @@ const nav = {
                 "./shewhartCharts2",
                 "./shewhartCharts3",
                 "./shewhartCharts4"
+				
             ]
         },
         "./cusumChart",	
         "./ewmaChart",
-        "./mqccChart"
-      
+        "./mqccChart",
+        "./multiVariChart"
     ]
 }
 
