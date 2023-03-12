@@ -66,12 +66,6 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		  shape = 15,
 		  size = 6
 		) +
-		scale_shape_manual(values = c(1, 16)) +
-		labs(
-		  x = as.character(ensym(x)),
-		  y = as.character(ensym(y)),
-		  shape = as.character(ensym(group))
-		) +
 		theme_grey() +
 		ggtitle(chart_title) +
 		theme(plot.title = element_text(size = 16, face = "bold"))
