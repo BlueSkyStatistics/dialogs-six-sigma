@@ -5,7 +5,7 @@ var localization = {
 		navigation: "Multi-Vari Chart",
 		
 		Y_variableRespSelcted: "Select the variable (numerical) for measurement/response (Y-axis)",
-		X_variablefSelcted: "Select the categorical variable (X-axis)",
+		X_variableSelcted: "Select the categorical variable (X-axis)",
 		G_variableSelcted: "Select the grouping (categorical) variable ",
 		printStatChk: "Print stats in addition to charts",
 		
@@ -36,8 +36,8 @@ require(dplyr)
 
 require(ggplot2)
 
-multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "orange", chart_title = "MultiVari Chart") {
-	
+multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "black", chart_title = "MultiVari Chart") {
+	  data = data[,c(x,y,group)]
 	  data <- dplyr::rename(data, "x" = all_of(x), "y" = all_of(y), "grp" = all_of(group))
 	
 	  means <- data %>%
@@ -50,8 +50,7 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		  color = color1
 		) +
 		geom_point(
-		  aes(shape = grp), 
-		  color = color1,
+		  aes(shape = grp, color = grp), 
 		  size = 4
 		) +
 		geom_line(
@@ -62,9 +61,19 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		) +
 		geom_point(
 		  data = means, 
-		  color = color2,
+		  aes(x = x, y=y),
 		  shape = 15,
-		  size = 6
+		  size = 4
+		) + 
+		geom_text(data = means, 
+		  aes(x = x, y=y + 1.5, label = round(y,1), hjust=1, vjust=0)) + 
+		annotate(geom="text",  x = Inf, y = Inf, vjust = 1, hjust = 1, label=paste("Mean values in", color2),
+              color="black")+
+		labs(
+		  x = as.character(ensym(x)),
+		  y = as.character(ensym(y)),
+		  shape = as.character(ensym(group)),
+		  color = as.character(ensym(group))
 		) +
 		theme_grey() +
 		ggtitle(chart_title) +
@@ -72,46 +81,48 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 }
 
 multiVariGroupingPlot(data = {{dataset.name}}, 
-					x = '{{selected.X_variablefSelcted | safe}}', 
+					x = '{{selected.X_variableSelcted | safe}}', 
 					y = '{{selected.Y_variableRespSelcted | safe}}', 
 					group ='{{selected.G_variableSelcted | safe}}', 
-					chart_title = "Multi-Vari Chart for {{selected.Y_variableRespSelcted | safe}} (with mean) by {{selected.X_variablefSelcted | safe}}",
-					color1 = "blue", color2 = "orange") 
+					chart_title = "Multi-Vari Chart for {{selected.Y_variableRespSelcted | safe}} (with mean) by {{selected.X_variableSelcted | safe}}",
+					) 
 
 BSkyFormat("\n")
 
-{{dataset.name}}_tmp = {{dataset.name}}[,c('{{selected.X_variablefSelcted | safe}}', '{{selected.Y_variableRespSelcted | safe}}', '{{selected.G_variableSelcted | safe}}')]
-{{dataset.name}}_tmp\${{selected.X_variablefSelcted | safe}}_{{selected.G_variableSelcted | safe}} = with({{dataset.name}}_tmp, paste({{selected.X_variablefSelcted | safe}}, {{selected.G_variableSelcted | safe}}, sep='_'))
+{{dataset.name}}_tmp = {{dataset.name}}[,c('{{selected.X_variableSelcted | safe}}', '{{selected.Y_variableRespSelcted | safe}}', '{{selected.G_variableSelcted | safe}}')]
+{{dataset.name}}_tmp\${{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}} = with({{dataset.name}}_tmp, paste({{selected.X_variableSelcted | safe}}, {{selected.G_variableSelcted | safe}}, sep='_'))
+{{dataset.name}}_tmp\${{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}} = with({{dataset.name}}_tmp, factor({{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}}, levels=unlist(lapply(levels({{selected.X_variableSelcted | safe}}),function(x)paste(x,levels({{selected.G_variableSelcted | safe}}), sep='_')))))
+
 multiVariGroupingPlot(data = {{dataset.name}}_tmp, 
-					x = '{{selected.X_variablefSelcted | safe}}_{{selected.G_variableSelcted | safe}}', 
+					x = '{{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}}', 
 					y = '{{selected.Y_variableRespSelcted | safe}}', 
 					group ='{{selected.G_variableSelcted | safe}}',
-					chart_title = "Multi-Vari Chart for {{selected.Y_variableRespSelcted | safe}} (with mean) by ({{selected.X_variablefSelcted | safe}} and {{selected.G_variableSelcted | safe}})",
-					color1 = "blue", color2 = "orange")
+					chart_title = "Multi-Vari Chart for {{selected.Y_variableRespSelcted | safe}} (with mean) by ({{selected.X_variableSelcted | safe}} and {{selected.G_variableSelcted | safe}})",
+					)
 rm({{dataset.name}}_tmp)
 
 {{if(options.selected.printStatChk === 'TRUE')}}
 	{{dataset.name}} %>%
-	dplyr::group_by({{selected.X_variablefSelcted | safe}}) %>%
-		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.X_variablefSelcted | safe}}) %>%
+	dplyr::group_by({{selected.X_variableSelcted | safe}}) %>%
+		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
 			BSkySummaryStats(stats = c(min=TRUE, 
 										max=TRUE, 
 										mean=TRUE, 
 										median=TRUE, 
 										quantiles=FALSE) 
 										) %>%
-			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by {{selected.X_variablefSelcted | safe}}") 	 
+			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by {{selected.X_variableSelcted | safe}}") 	 
 
 	{{dataset.name}} %>%
-	dplyr::group_by({{selected.G_variableSelcted | safe}},{{selected.X_variablefSelcted | safe}}) %>%
-		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.G_variableSelcted | safe}},{{selected.X_variablefSelcted | safe}}) %>%
+	dplyr::group_by({{selected.G_variableSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
+		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.G_variableSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
 			BSkySummaryStats(stats = c(min=TRUE, 
 										max=TRUE, 
 										mean=TRUE, 
 										median=TRUE, 
 										quantiles=FALSE)
 										) %>%
-			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by ({{selected.X_variablefSelcted | safe}} and {{selected.G_variableSelcted | safe}})") 	
+			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by ({{selected.X_variableSelcted | safe}} and {{selected.G_variableSelcted | safe}})") 	
 			
 {{/if}}
 
@@ -130,10 +141,10 @@ rm({{dataset.name}}_tmp)
                     extraction: "NoPrefix",
                 }), r: ['{{ var | safe}}']
             },
-			X_variablefSelcted: {
+			X_variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.X_variablefSelcted,
-                    no: "X_variablefSelcted",
+                    label: localization.en.X_variableSelcted,
+                    no: "X_variableSelcted",
                     required: true,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
 					filter: "String|Ordinal|Nominal",
@@ -170,7 +181,7 @@ rm({{dataset.name}}_tmp)
             left: [objects.content_var.el.content],
             right: [
 					objects.Y_variableRespSelcted.el.content,
-					objects.X_variablefSelcted.el.content,
+					objects.X_variableSelcted.el.content,
 					objects.G_variableSelcted.el.content,
 					objects.printStatChk.el.content,
 					],
