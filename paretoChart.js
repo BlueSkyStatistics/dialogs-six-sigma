@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Pareto Chart",
-		navigation: "Pareto Chart",
+        title: "Pareto Chart, Basic",
+		navigation: "Pareto Chart, Basic",
 		
 		label1: "Two options - Long format (default) i.e. categories and counts in vertical columns and Wide format i.e. categories as column names and counts as row",
 		selectLongRad: "Option 1: Long format - choose categories and counts",
