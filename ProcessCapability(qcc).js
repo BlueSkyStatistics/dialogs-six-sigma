@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Process Capability (qcc pkg)",
-		navigation: "Process Capability(qcc pkg)",
+        title: "Process Capability",
+		navigation: "Process Capability",
 		
 		//chartTypeXbarChk: "xbar chart",
 		
@@ -35,7 +35,7 @@ var localization = {
 		digits: "Digits - number of digits to display",
 		
 		help: {
-            title: "Process Capability (qcc pkg)",
+            title: "Process Capability",
             r_help: "help(process.capability, package = qcc)",
 			body: `
 				<b>Description</b></br>
