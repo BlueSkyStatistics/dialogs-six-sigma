@@ -4,7 +4,13 @@ const nav = {
     "buttons": [
         "./SixSigmaOverview",
         "./createCauseEffectDiagram",
-        "./paretoChart",
+        {
+            "name": "Pareto Chart",
+            "icon": "icon-sixsigma",
+            "children": [
+                "./paretoChart"
+            ]
+        },        
         "./lossFunctionAnalysis",
         {
             "name": "MSA",
