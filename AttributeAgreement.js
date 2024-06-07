@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Attribute Agreement Analysis",
-		navigation: "Attribute Agreement",
+        title: "Attribute Agreement Analysis, Basic",
+		navigation: "Attribute Agreement, Basic",
 		
 		//label2: "Two options - either select a non-normal variable to transform to normal if not grouped or select the entire dataset to transform if already grouped",
 		//selectVariableRad: "Option 1: Select a non-normal variable from the dataset to be transformed to normal",

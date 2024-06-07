@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Gage Bias Analysis",
-		navigation: "Gage Bias Analysis",
+        title: "Gage Bias Analysis, Basic",
+		navigation: "Gage Bias Analysis, Basic",
 		
 		//label2: "Two options - either select a non-normal variable to transform to normal if not grouped or select the entire dataset to transform if already grouped",
 		//selectVariableRad: "Option 1: Select a non-normal variable from the dataset to be transformed to normal",

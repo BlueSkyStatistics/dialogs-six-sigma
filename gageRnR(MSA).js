@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Gage R&R - Measurement System Analysis",
-		navigation: "Gage R&R",
+        title: "Gage R&R - Measurement System Analysis, Basic",
+		navigation: "Gage R&R, Basic",
 		mainTitle: "Main title for the graphic output",
 		subTitle: "Subtitle for the graphic output (e.g. the name of the SixSigma project)",
 		measuredVar: "Measured variable",

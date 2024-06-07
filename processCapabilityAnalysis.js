@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Process Capability Analysis",
-		navigation: "Process Capability (Legacy)",
+		navigation: "Process Capability (SixSigma package)",
 		
 		measuredVar: "Variable with the data of the process performance",
 		lsl: "LSL - numeric value of lower specification limit",

@@ -1,12 +1,12 @@
 
 var localization = {
     en: {
-        title: "Process Capability (does not handle missing values)",
-		navigation: "Process Capability (legacy)",
+        title: "Process Capability",
+		navigation: "Process Capability",
 		
 		//chartTypeXbarChk: "xbar chart",
 		
-		summaryPlotChk: "Plot the underlying xbar and xbar.one charts used for computing the process capability",
+		summaryPlotChk: "Plot the underlying xbar and I charts used for computing the process capability",
 		displaySLlineonPlotChk: "Display LSL and USL lines on the underlying plots",
 		printObjectSummaryChk: "Print QCC object summary for the process capability",
 		
@@ -35,7 +35,7 @@ var localization = {
 		digits: "Digits - number of digits to display",
 		
 		help: {
-            title: "Process Capability",
+            title: "Process Capability (qcc pkg)",
             r_help: "help(process.capability, package = qcc)",
 			body: `
 				<b>Description</b></br>
@@ -65,7 +65,7 @@ var localization = {
 class processCapabilityQcc extends baseModal {
     constructor() {
         var config = {
-            id: "processCapabilityLegacy",
+            id: "processCapability",
             label: localization.en.title,
             modalType: "two",
             RCode:`
@@ -87,12 +87,21 @@ require(qcc)
 	BSkyFormat("\nError: LSL or USL or both must be specified\n")
 {{#else}}
 	{{if(options.selected.gpbox1 === 'variable')}}
-		
 		data_name = '{{selected.variableSelcted | safe}}{{if(options.selected.rowsTobeUsed !== "")}} [c({{selected.rowsTobeUsed | safe}})] {{/if}}'
-		
 		{{if(options.selected.variableControlLimits !== '')}}
 			{{if(options.selected.groupingVariable !== '')}}
-				selectedData_variable_control_limit = with({{dataset.name}}, qcc.groups(c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})], c({{selected.groupingVariable | safe}})[-c({{selected.variableControlLimits | safe}})]))
+				row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted | safe}}) | {{dataset.name}}\${{selected.variableSelcted | safe}} == "" | is.na({{dataset.name}}\${{selected.groupingVariable | safe}}) | {{dataset.name}}\${{selected.groupingVariable | safe}} == "")
+				row_num_with_NAs_variableControlLimits = c(row_num_with_NAs, c({{selected.variableControlLimits | safe}}))
+				if(length(row_num_with_NAs_variableControlLimits) > 0)
+				{
+					dataset_NAs_removed = {{dataset.name}}[-c(row_num_with_NAs_variableControlLimits),]
+				}else
+				{
+					dataset_NAs_removed = {{dataset.name}}
+				}
+				
+				#selectedData_variable_control_limit = with(dataset_NAs_removed, qcc.groups(c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})], c({{selected.groupingVariable | safe}})[-c({{selected.variableControlLimits | safe}})]))
+				selectedData_variable_control_limit = with(dataset_NAs_removed, qcc.groups(c({{selected.variableSelcted | safe}}), c({{selected.groupingVariable | safe}})))
 				
 				{{if(options.selected.displayGroupsChk === 'TRUE')}}
 					{{selected.variableSelcted | safe}}ControlLimit = as.data.frame(selectedData_variable_control_limit)
@@ -110,7 +119,8 @@ require(qcc)
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 														type="xbar.one", std.dev = "SD", 
-														data = selectedData_variable_control_limitNonNAs, 
+														data = selectedData_variable_control_limitNonNAs,
+														#data = dataset_NAs_removed\${{selected.variableSelcted | safe}},
 														data.name = paste(data_name, "( variable sample size of ",sample_size, ")"),
 														nsigmas = c({{selected.nsigmas | safe}})))
 				
@@ -121,7 +131,18 @@ require(qcc)
 									nsigmas = c({{selected.nsigmas | safe}}))
 			
 			{{#else}}
-				selectedData_variable_control_limit = with({{dataset.name}}, c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})])
+				row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted | safe}}) | {{dataset.name}}\${{selected.variableSelcted | safe}} == "")
+				row_num_with_NAs_variableControlLimits = c(row_num_with_NAs, c({{selected.variableControlLimits | safe}}))
+				if(length(row_num_with_NAs_variableControlLimits) > 0)
+				{
+					dataset_NAs_removed = {{dataset.name}}[-c(row_num_with_NAs_variableControlLimits),]
+				}else
+				{
+					dataset_NAs_removed = {{dataset.name}}
+				}
+				
+				#selectedData_variable_control_limit = with(dataset_NAs_removed, c({{selected.variableSelcted | safe}})[-c({{selected.variableControlLimits | safe}})])
+				selectedData_variable_control_limit = with(dataset_NAs_removed, c({{selected.variableSelcted | safe}}))
 				
 				sample_size = 1
 				
@@ -142,8 +163,16 @@ require(qcc)
 			{{/if}}
 		{{#else}}
 			{{if(options.selected.groupingVariable !== '')}}
-				selectedData = with({{dataset.name}}, qcc::qcc.groups(c({{selected.variableSelcted | safe}}), c({{selected.groupingVariable | safe}})))
-			
+				row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted | safe}}) | {{dataset.name}}\${{selected.variableSelcted | safe}} == "" | is.na({{dataset.name}}\${{selected.groupingVariable | safe}}) | {{dataset.name}}\${{selected.groupingVariable | safe}} == "")
+				if(length(row_num_with_NAs) > 0)
+				{
+					dataset_NAs_removed = {{dataset.name}}[-c(row_num_with_NAs),]
+				}else
+				{
+					dataset_NAs_removed = {{dataset.name}}
+				}
+				
+				selectedData = with(dataset_NAs_removed, qcc::qcc.groups(c({{selected.variableSelcted | safe}}), c({{selected.groupingVariable | safe}})))
 				sample_size = dim(selectedData)[2]
 				
 				{{if(options.selected.displayGroupsChk === 'TRUE')}}
@@ -158,28 +187,37 @@ require(qcc)
 				
 				qccXOneOverall = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 									type="xbar.one", std.dev = 'SD', 
-									data = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]))), 
+									#data = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]))), 
+									data = (dataset_NAs_removed\${{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
 									data.name = paste(data_name, "( sample size of ",sample_size, ")"),								
 									nsigmas = c({{selected.nsigmas | safe}})) 
 				
 				qccXPotential = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 									type="xbar", std.dev = '{{selected.stddev | safe}}', 
-									data = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
+									data = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}],
 									data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 									nsigmas = c({{selected.nsigmas | safe}})) 
 			{{#else}}
+				row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted | safe}}) | {{dataset.name}}\${{selected.variableSelcted | safe}} == "")
+				if(length(row_num_with_NAs) > 0)
+				{
+					dataset_NAs_removed = {{dataset.name}}[-c(row_num_with_NAs),]
+				}else
+				{
+					dataset_NAs_removed = {{dataset.name}}
+				}
 				sample_size = 1
 				
-				dataOverall =  with({{dataset.name}}, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
-				dataPotential = with({{dataset.name}}, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
+				dataOverall =  with(dataset_NAs_removed, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
+				dataPotential = with(dataset_NAs_removed, c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}])
 				
-				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
+				qccXOneOverall = with(dataset_NAs_removed, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 															type="xbar.one", std.dev = "SD", 
 															data = c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}], 
 															data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 															nsigmas = c({{selected.nsigmas | safe}})))
 				
-				qccXOnePotential = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
+				qccXOnePotential = with(dataset_NAs_removed, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
 															type="xbar.one", std.dev = "MR", 
 															data = c({{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}) {{/if}}], 
 															data.name = paste(data_name, "( sample size of ",sample_size, ")"),
