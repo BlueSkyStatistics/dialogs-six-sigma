@@ -27,6 +27,7 @@ var localization = {
 		nsigmas: "Sigma - number of sigmas to use for computing control limits",
 		confidence_level: "A numeric value between 0 and 1 specifying the level to use for computing confidence intervals",
 		stddev: "Standard deviation method for calculating xbar (for group size > 1)", 
+		stddevXbarOne: "Standard deviation method for calculating I-MR", 
 		//sdWarnLimits: "Add warning limits (e.g. 2) at the specific std. deviations (for xbar charts only)",
 		
 		lower: "LSL - numeric value of lower specification limit (type NA to specify one-sided specification limits)",
@@ -118,7 +119,7 @@ require(qcc)
 				dataPotential = selectedData_variable_control_limit[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
 				
 				qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
-														type="xbar.one", std.dev = "SD", 
+														type="xbar.one", std.dev = '{{selected.stddevXbarOne | safe}}', 
 														data = selectedData_variable_control_limitNonNAs,
 														#data = dataset_NAs_removed\${{selected.variableSelcted | safe}},
 														data.name = paste(data_name, "( variable sample size of ",sample_size, ")"),
@@ -186,7 +187,7 @@ require(qcc)
 				dataPotential = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
 				
 				qccXOneOverall = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
-									type="xbar.one", std.dev = 'SD', 
+									type="xbar.one", std.dev = '{{selected.stddevXbarOne | safe}}', 
 									#data = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]))), 
 									data = (dataset_NAs_removed\${{selected.variableSelcted | safe}})[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}], 
 									data.name = paste(data_name, "( sample size of ",sample_size, ")"),								
@@ -243,7 +244,7 @@ require(qcc)
 		dataPotential = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
 		
 		qccXOneOverall = with({{dataset.name}}, qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
-													type="xbar.one", std.dev = "SD", 
+													type="xbar.one", std.dev = '{{selected.stddevXbarOne | safe}}', 
 													data = selectedData_variable_control_limitNonNAs, 
 													data.name = paste(data_name, "( sample size of ",sample_size, ")"),
 													nsigmas = c({{selected.nsigmas | safe}})))
@@ -286,17 +287,31 @@ require(qcc)
 	{{if(options.selected.summaryPlotChk === 'TRUE')}}
 		BSkySetSixSigmaTestOptions(digits = {{selected.digits | safe}})
 		
+		{{if(options.selected.groupingVariable !== '')}}
+			if(c('{{selected.stddevXbarOne | safe}}') == 'SD')
+			{
+				xbar.one_chart_diaply_name = "I"
+			}else
+			{
+				xbar.one_chart_diaply_name = "MR"
+			}
+		{{#else}}
+			xbar.one_chart_diaply_name = "I"
+		{{/if}}
+		
 		if(!is.null(qccXOneOverall)){
-			BSkyFormat(paste("\nxbar.one chart used for computing Overall Process Capability Indices for ", data_name))
+			BSkyFormat(paste("\n", xbar.one_chart_diaply_name, "chart used for computing Overall Process Capability Indices for ", data_name))
 			
 			xbar.overall.qcc.objects = plot.qcc.spc.phases(
 										type = 'xbar.one',
 										data = dataOverall, 
 										data.name = data_name,
-										chart.title.name = 'I (xbar.one)',
+										#chart.title.name = 'I (xbar.one)',
+										chart.title.name = xbar.one_chart_diaply_name,
 										ylab = "Individual value",
 										xlab = "Observation", 
-										std.dev = 'SD',  
+										#std.dev = 'SD', 
+										std.dev = '{{selected.stddevXbarOne | safe}}',
 										digits = {{selected.digits | safe}}, 
 										{{if(options.selected.displaySLlineonPlotChk === 'TRUE')}}
 											spec.limits = list(lsl=c({{selected.lower | safe}}), usl= c({{selected.upper | safe}})),
@@ -307,7 +322,8 @@ require(qcc)
 		if(!is.null(qccXOneOverall)){
 			print.qcc.spc.phases(
 								qcc.spc.phases.obects = xbar.overall.qcc.objects,
-								chart.title.name = 'I (xbar.one)',
+								#chart.title.name = 'I (xbar.one)',
+								chart.title.name = xbar.one_chart_diaply_name,
 								print.stats = TRUE, 
 								print.test.summary = TRUE, 
 								digits = {{selected.digits | safe}} 
@@ -325,10 +341,11 @@ require(qcc)
 			xlab_title = "Group"
 			stddev = '{{selected.stddev | safe}}'
 		}else{
-			BSkyFormat(paste("xbar.one Chart Used for Computing Potential Process Capability Indices for ", data_name))
+			BSkyFormat(paste("MR Chart Used for Computing Potential Process Capability Indices for ", data_name))
 			#plot(qccXOnePotential, digits = {{selected.digits | safe}})
 			chart_type = 'xbar.one'
-			chart_title = 'xbar.one'
+			#chart_title = 'xbar.one'
+			chart_title = 'MR'
 			ylab_title = "Individual value"
 			xlab_title = "Observation"
 			stddev = 'MR'
@@ -549,7 +566,7 @@ require(qcc)
 					allow_spaces:true,
                     //value: "",
 					wrapped: ', target=c(%val%)',
-					width: "w-25",
+					width: "w-25", 
                 })
             },
 			stddev: {
@@ -560,6 +577,17 @@ require(qcc)
                     extraction: "NoPrefix|UseComma",
                     options: ["RMSDF", "UWAVE-R", "UWAVE-SD", "MVLUE-R", "MVLUE-SD"],
                     default: "RMSDF",
+					//width: "w-25",
+                })
+            },
+			stddevXbarOne: {
+                el: new selectVar(config, {
+                    no: 'stddevXbarOne',
+                    label: localization.en.stddevXbarOne,
+                    multiple: false,
+                    extraction: "NoPrefix|UseComma",
+                    options: ["SD", "MR"],
+                    default: "SD",
 					//width: "w-25",
                 })
             },
@@ -636,7 +664,10 @@ require(qcc)
 					objects.label2.el.content,
 					objects.nsigmas.el.content,
 					objects.confidence_level.el.content,
-					objects.stddev.el.content,
+					
+					objects.stddev.el.content, 
+					objects.stddevXbarOne.el.content,
+					
 					objects.digits.el.content, 
 					objects.summaryPlotChk.el.content,
 					objects.displaySLlineonPlotChk.el.content,

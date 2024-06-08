@@ -133,12 +133,28 @@ chartTypes = c(
 
 cat("Charts selected:", paste(chartTypes[chartTypes!=" "], collapse = ","))
 
-if(length(trimws(c('{{selected.sizes | safe}}'))) == 0)
+
+if(trimws(c('{{selected.sizes | safe}}')) == '')
 {
-	sizes = c()			
-} else 
+	sizes = c()	
+	row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted2 | safe}}) | {{dataset.name}}\${{selected.variableSelcted2 | safe}} == "")
+	if(length(row_num_with_NAs)>0){
+		data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}[-c(row_num_with_NAs)])
+	}else
+	{
+		data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}})
+	}
+} else  
 {
-	sizes = with({{dataset.name}},c({{selected.sizes | safe}}))
+	row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted2 | safe}}) | {{dataset.name}}\${{selected.variableSelcted2 | safe}} == "" | is.na({{dataset.name}}\$'{{selected.sizes | safe}}') | c({{dataset.name}}\$'{{selected.sizes | safe}}') == "")
+	if(length(row_num_with_NAs)>0){
+		sizes = with({{dataset.name}},c({{selected.sizes | safe}})[-c(row_num_with_NAs)])
+		data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}[-c(row_num_with_NAs)])
+	}else
+	{
+		sizes = with({{dataset.name}},c({{selected.sizes | safe}}))
+		data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}})
+	}
 }
 
 i=1 
@@ -152,7 +168,8 @@ if(trimws(chartTypes[i]) != "")
 				
 			p.spc.qcc.objects = plot.qcc.spc.phases(
 								type = chartTypes[i],
-								data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								#data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								data = data_NonNA,
 								data.name = c('{{selected.variableSelcted2 | safe}}'), 
 								sizes = sizes, 
 								newdata=c({{selected.rowsTobeUsedAsNewData | safe}}), 
@@ -196,7 +213,8 @@ if(trimws(chartTypes[i]) != "")
 			BSkyFormat(paste("\nChart Type:", chartTypes[i], "for", c('{{selected.variableSelcted2 | safe}}')))
 			np.spc.qcc.objects = plot.qcc.spc.phases(
 								type = chartTypes[i],
-								data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								#data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}),
+								data = data_NonNA,
 								data.name = c('{{selected.variableSelcted2 | safe}}'), 
 								sizes = sizes, 
 								newdata=c({{selected.rowsTobeUsedAsNewData | safe}}), 
@@ -241,7 +259,8 @@ if(trimws(chartTypes[i]) != "")
 			BSkyFormat(paste("\nChart Type:", chartTypes[i], "for", c('{{selected.variableSelcted2 | safe}}')))
 			c.spc.qcc.objects = plot.qcc.spc.phases(
 								type = chartTypes[i],
-								data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								#data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								data = data_NonNA,
 								data.name = c('{{selected.variableSelcted2 | safe}}'), 
 								sizes = sizes, 
 								newdata=c({{selected.rowsTobeUsedAsNewData | safe}}), 
@@ -285,7 +304,8 @@ if(trimws(chartTypes[i]) != "")
 			BSkyFormat(paste("\nChart Type:", chartTypes[i], "for", c('{{selected.variableSelcted2 | safe}}')))
 			u.spc.qcc.objects = plot.qcc.spc.phases(
 								type = chartTypes[i],
-								data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								#data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								data = data_NonNA,
 								data.name = c('{{selected.variableSelcted2 | safe}}'), 
 								sizes = sizes, 
 								newdata=c({{selected.rowsTobeUsedAsNewData | safe}}), 

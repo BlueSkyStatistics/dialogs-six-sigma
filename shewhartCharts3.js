@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Shewhart charts (I-MR)",
-		navigation: "Shewhart charts (I-MR)",
+        title: "Shewhart charts (xbar.one/I-MR)",
+		navigation: "Shewhart charts (xbar.one/I-MR)",
 		
 		variableSelcted2: "Variable (observed data) to chart",
 		
@@ -64,7 +64,7 @@ var localization = {
 		test8: "K points in a row more than 1σ from center line either side (defualt 8)",
 		
 		help: {
-            title: "Shewhart charts (I-MR)",
+            title: "Shewhart charts (xbar.one/I-MR)",
             r_help: "help(qcc, package = qcc)",
 			body:`
 				<b>Description</b></br>
@@ -142,6 +142,14 @@ cat("Charts selected:", "I-MR")
 #chart type xbar.one
 xbar.one.spc.qcc.objects = NULL
 
+row_num_with_NAs = which(is.na({{dataset.name}}\${{selected.variableSelcted2 | safe}}) | {{dataset.name}}\${{selected.variableSelcted2 | safe}} == "")
+if(length(row_num_with_NAs)>0){
+	data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}[-c(row_num_with_NAs)])
+}else
+{
+	data_NonNA = c({{dataset.name}}\${{selected.variableSelcted2 | safe}})
+}
+
 i=1
 if(trimws(chartTypes) != "") 
 {	
@@ -149,7 +157,8 @@ if(trimws(chartTypes) != "")
 				
 			xbar.one.IMR.spc.qcc.objects = plot.qcc.spc.phases(
 								type = 'xbar.one',
-								data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}), 
+								#data = c({{dataset.name}}\${{selected.variableSelcted2 | safe}}),
+								data = data_NonNA,
 								data.name = c('{{selected.variableSelcted2 | safe}}'),
 								chart.title.name = 'I',
 								ylab = "Individual value",
@@ -166,8 +175,12 @@ if(trimws(chartTypes) != "")
 								mark.test.number = {{selected.markTestNumberChk | safe}}
 								)
 			
-			data.moving.range.R <- matrix(cbind(c({{dataset.name}}\${{selected.variableSelcted2 | safe}})[1:length(c({{dataset.name}}\${{selected.variableSelcted2 | safe}}))-1], 
-			                                    c({{dataset.name}}\${{selected.variableSelcted2 | safe}})[2:length(c({{dataset.name}}\${{selected.variableSelcted2 | safe}}))]), 
+			#data.moving.range.R <- matrix(cbind(c({{dataset.name}}\${{selected.variableSelcted2 | safe}})[1:length(c({{dataset.name}}\${{selected.variableSelcted2 | safe}}))-1], 
+			#                                   c({{dataset.name}}\${{selected.variableSelcted2 | safe}})[2:length(c({{dataset.name}}\${{selected.variableSelcted2 | safe}}))]), 
+			#									ncol=2)
+			
+			data.moving.range.R <- matrix(cbind(data_NonNA[1:length(data_NonNA)-1], 
+			                                    data_NonNA[2:length(data_NonNA)]), 
 												ncol=2)
 
 			xbar.one.XMR.spc.qcc.objects = plot.qcc.spc.phases(
