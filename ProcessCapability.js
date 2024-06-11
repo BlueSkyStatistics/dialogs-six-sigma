@@ -184,6 +184,7 @@ require(qcc)
 				{{/if}}
 				
 				dataOverall = as.vector(as.matrix(t(selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}])))
+				dataOverall = dataOverall[!is.na(dataOverall)]
 				dataPotential = selectedData[{{if(options.selected.rowsTobeUsed !== "")}} c({{selected.rowsTobeUsed | safe}}), {{/if}}]
 				
 				qccXOneOverall = qcc::qcc(plot = FALSE,  rules = c(), digits = {{selected.digits | safe}}, 
@@ -599,7 +600,7 @@ require(qcc)
                     min: 0,
                     max: 15,
                     step: 1,
-                    value: 6,
+                    value: 4,
 					width: "w-25",
 					style: "mb-2",
                 })

@@ -1,8 +1,8 @@
 
 var localization = {
     en: {
-        title: "Shewhart charts (xbar.one/I-MR)",
-		navigation: "Shewhart charts (xbar.one/I-MR)",
+        title: "Shewhart charts (I-MR)",
+		navigation: "Shewhart charts (I-MR)",
 		
 		variableSelcted2: "Variable (observed data) to chart",
 		
@@ -64,7 +64,7 @@ var localization = {
 		test8: "K points in a row more than 1σ from center line either side (defualt 8)",
 		
 		help: {
-            title: "Shewhart charts (xbar.one/I-MR)",
+            title: "Shewhart charts (I-MR)",
             r_help: "help(qcc, package = qcc)",
 			body:`
 				<b>Description</b></br>
