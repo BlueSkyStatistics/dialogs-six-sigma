@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Shewhart charts (p, np, c, u)",
-		navigation: "Shewhart charts (P, NP, C, U)",
+		navigation: "Shewhart charts (P, NP, C, U), Basic",
 		
 		chartTypePChk: "p chart",
 		chartTypeNPChk: "np chart",

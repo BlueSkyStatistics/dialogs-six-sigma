@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Shewhart charts (I-MR)",
-		navigation: "Shewhart charts (I-MR)",
+		navigation: "Shewhart charts (I-MR), Basic",
 		
 		variableSelcted2: "Variable (observed data) to chart",
 		

@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Process Capability (does not handle missing values)",
-		navigation: "Process Capability (legacy)",
+		navigation: "Process Capability, Basic",
 		
 		//chartTypeXbarChk: "xbar chart",
 		

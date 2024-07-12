@@ -25,7 +25,6 @@ const nav = {
             "name": "Process Capability",
             "icon": "icon-sixsigma",
             "children": [
-                "./ProcessCapability",
 				"./ProcessCapability(qcc)"
             ]
         },

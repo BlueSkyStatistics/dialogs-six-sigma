@@ -8,6 +8,9 @@ var localization = {
 		X_variableSelcted: "Select the categorical variable (X-axis)",
 		G_variableSelcted: "Select the grouping (categorical) variable ",
 		printStatChk: "Print stats in addition to charts",
+		pctMeanRangeAsYoffset: "Vertical offset to place the labels for the mean points on the plot",
+		pctMeanRangeAsXoffset: "Horizontal offset to place the labels for the mean points on the plot",
+		
 		
 		help: {
             title: "Multi-Vari Chart",
@@ -44,6 +47,9 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		group_by(x) %>%
 		summarize(y = mean(y, na.rm = TRUE))
 	
+	  mean_y_range <- range(means$y, na.rm = TRUE)
+	  offset_mean_text_y <- (mean_y_range[2] - mean_y_range[1]) * c({{selected.pctMeanRangeAsYoffset | safe}}) 
+	
 	  ggplot(data, aes(x, y)) +
 		geom_line(
 		  aes(group = x), 
@@ -66,7 +72,7 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		  size = 4
 		) + 
 		geom_text(data = means, 
-		  aes(x = x, y=y + 1.5, label = round(y,1), hjust=1, vjust=0)) + 
+		  aes(x = x, y=y + offset_mean_text_y, label = round(y,1), hjust= c({{selected.pctMeanRangeAsXoffset | safe}}), vjust=0)) + 
 		annotate(geom="text",  x = Inf, y = Inf, vjust = 1, hjust = 1, label=paste("Mean values in", color2),
               color="black")+
 		labs(
@@ -176,6 +182,28 @@ rm({{dataset.name}}_tmp)
 					newline: true,
                 })
             },
+			pctMeanRangeAsYoffset: {
+			el: new inputSpinner(config, {
+			  no: 'pctMeanRangeAsYoffset',
+			  label: localization.en.pctMeanRangeAsYoffset,
+			  min: 0.01,
+			  max: 2,
+			  step: 0.01,
+			  value: 0.05,
+			  extraction: "NoPrefix|UseComma"
+			})
+		  },
+		  pctMeanRangeAsXoffset: {
+			el: new inputSpinner(config, {
+			  no: 'pctMeanRangeAsXoffset',
+			  label: localization.en.pctMeanRangeAsXoffset,
+			  min: -2.5,
+			  max: 3.5,
+			  step: 0.5,
+			  value: 2.0,
+			  extraction: "NoPrefix|UseComma"
+			})
+		  },
         };
         const content = {
             left: [objects.content_var.el.content],
@@ -184,6 +212,8 @@ rm({{dataset.name}}_tmp)
 					objects.X_variableSelcted.el.content,
 					objects.G_variableSelcted.el.content,
 					objects.printStatChk.el.content,
+					objects.pctMeanRangeAsYoffset.el.content,
+					objects.pctMeanRangeAsXoffset.el.content,
 					],
             nav: {
                 name: localization.en.navigation,

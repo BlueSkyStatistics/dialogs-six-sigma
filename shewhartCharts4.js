@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Shewhart charts (I-MR Between/Within)",
-		navigation: "Shewhart charts (I-MR Between/Within)",
+		navigation: "Shewhart charts (I-MR Between/Within), Basic",
 		
 		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
 		

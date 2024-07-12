@@ -2,7 +2,7 @@
 var localization = {
     en: {
         title: "Shewhart charts (xbar, R, S)",
-		navigation: "Shewhart charts (xbar, R, S)",
+		navigation: "Shewhart charts (xbar, R, S), Basic",
 		
 		//chart_type = c("xbar", "R", "S", "p", "np", "c", "u", "xbar.one")
 		chartTypeXbarChk: "xbar chart",
