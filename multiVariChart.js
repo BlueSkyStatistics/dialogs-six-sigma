@@ -40,7 +40,12 @@ require(dplyr)
 require(ggplot2)
 
 multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "black", chart_title = "MultiVari Chart") {
+	
 	  data = data[,c(x,y,group)]
+	  
+	  #data[,1] = as.factor(data[,1])
+	  #data[,3] = as.factor(data[,3])
+	  
 	  data <- dplyr::rename(data, "x" = all_of(x), "y" = all_of(y), "grp" = all_of(group))
 	
 	  means <- data %>%
@@ -81,12 +86,16 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		  shape = as.character(ensym(group)),
 		  color = as.character(ensym(group))
 		) +
-		theme_grey() +
+		{{selected.BSkyThemes | safe}} + 
 		ggtitle(chart_title) +
 		theme(plot.title = element_text(size = 16, face = "bold"))
 }
 
-multiVariGroupingPlot(data = {{dataset.name}}, 
+{{dataset.name}}_tmp = {{dataset.name}}[,c('{{selected.X_variableSelcted | safe}}', '{{selected.Y_variableRespSelcted | safe}}', '{{selected.G_variableSelcted | safe}}')]
+{{dataset.name}}_tmp[,1] = as.factor({{dataset.name}}_tmp[,1])
+{{dataset.name}}_tmp[,3] = as.factor({{dataset.name}}_tmp[,3])
+
+multiVariGroupingPlot(data = {{dataset.name}}_tmp, 
 					x = '{{selected.X_variableSelcted | safe}}', 
 					y = '{{selected.Y_variableRespSelcted | safe}}', 
 					group ='{{selected.G_variableSelcted | safe}}', 
@@ -95,7 +104,7 @@ multiVariGroupingPlot(data = {{dataset.name}},
 
 BSkyFormat("\n")
 
-{{dataset.name}}_tmp = {{dataset.name}}[,c('{{selected.X_variableSelcted | safe}}', '{{selected.Y_variableRespSelcted | safe}}', '{{selected.G_variableSelcted | safe}}')]
+
 {{dataset.name}}_tmp\${{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}} = with({{dataset.name}}_tmp, paste({{selected.X_variableSelcted | safe}}, {{selected.G_variableSelcted | safe}}, sep='_'))
 {{dataset.name}}_tmp\${{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}} = with({{dataset.name}}_tmp, factor({{selected.X_variableSelcted | safe}}_{{selected.G_variableSelcted | safe}}, levels=unlist(lapply(levels({{selected.X_variableSelcted | safe}}),function(x)paste(x,levels({{selected.G_variableSelcted | safe}}), sep='_')))))
 
@@ -105,10 +114,9 @@ multiVariGroupingPlot(data = {{dataset.name}}_tmp,
 					group ='{{selected.G_variableSelcted | safe}}',
 					chart_title = "Multi-Vari Chart for {{selected.Y_variableRespSelcted | safe}} (with mean) by ({{selected.X_variableSelcted | safe}} and {{selected.G_variableSelcted | safe}})",
 					)
-rm({{dataset.name}}_tmp)
 
 {{if(options.selected.printStatChk === 'TRUE')}}
-	{{dataset.name}} %>%
+	{{dataset.name}}_tmp %>%
 	dplyr::group_by({{selected.X_variableSelcted | safe}}) %>%
 		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
 			BSkySummaryStats(stats = c(min=TRUE, 
@@ -119,7 +127,7 @@ rm({{dataset.name}}_tmp)
 										) %>%
 			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by {{selected.X_variableSelcted | safe}}") 	 
 
-	{{dataset.name}} %>%
+	{{dataset.name}}_tmp %>%
 	dplyr::group_by({{selected.G_variableSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
 		dplyr::select({{selected.Y_variableRespSelcted | safe}},{{selected.G_variableSelcted | safe}},{{selected.X_variableSelcted | safe}}) %>%
 			BSkySummaryStats(stats = c(min=TRUE, 
@@ -131,6 +139,8 @@ rm({{dataset.name}}_tmp)
 			BSkyFormat(outputTableIndex = c(2), outputTableRenames = "Stats for {{selected.Y_variableRespSelcted | safe}} by ({{selected.X_variableSelcted | safe}} and {{selected.G_variableSelcted | safe}})") 	
 			
 {{/if}}
+
+rm({{dataset.name}}_tmp)
 
 `
         };
@@ -152,8 +162,8 @@ rm({{dataset.name}}_tmp)
                     label: localization.en.X_variableSelcted,
                     no: "X_variableSelcted",
                     required: true,
-                    //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
-					filter: "String|Ordinal|Nominal",
+                    filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
+					//filter: "String|Ordinal|Nominal",
 					style: "mb-3",
                     extraction: "NoPrefix",
                 }), r: ['{{ var | safe}}']
@@ -163,8 +173,8 @@ rm({{dataset.name}}_tmp)
                     label: localization.en.G_variableSelcted,
                     no: "G_variableSelcted",
                     required: true,
-                    //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
-					filter: "String|Ordinal|Nominal",
+                    filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
+					//filter: "String|Ordinal|Nominal",
 					style: "mb-3",
                     extraction: "NoPrefix",
                 }), r: ['{{ var | safe}}']
