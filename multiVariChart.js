@@ -10,6 +10,7 @@ var localization = {
 		printStatChk: "Print stats in addition to charts",
 		pctMeanRangeAsYoffset: "Vertical offset to place the labels for the mean points on the plot",
 		pctMeanRangeAsXoffset: "Horizontal offset to place the labels for the mean points on the plot",
+		angleXaxis_text: "Angle to slant x-axis text values (default 0 for no slanting)",
 		
 		
 		help: {
@@ -88,7 +89,9 @@ multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "
 		) +
 		{{selected.BSkyThemes | safe}} + 
 		ggtitle(chart_title) +
-		theme(plot.title = element_text(size = 16, face = "bold"))
+		theme(plot.title = element_text(size = 16, face = "bold"),
+		axis.text.x = element_text(angle = {{selected.angleXaxis_text | safe}}, hjust = 1)
+		)
 }
 
 {{dataset.name}}_tmp = {{dataset.name}}[,c('{{selected.X_variableSelcted | safe}}', '{{selected.Y_variableRespSelcted | safe}}', '{{selected.G_variableSelcted | safe}}')]
@@ -200,7 +203,8 @@ rm({{dataset.name}}_tmp)
 			  max: 2,
 			  step: 0.01,
 			  value: 0.05,
-			  extraction: "NoPrefix|UseComma"
+			  extraction: "NoPrefix|UseComma",
+			  style: "mb-3"
 			})
 		  },
 		  pctMeanRangeAsXoffset: {
@@ -211,8 +215,22 @@ rm({{dataset.name}}_tmp)
 			  max: 3.5,
 			  step: 0.5,
 			  value: 2.0,
-			  extraction: "NoPrefix|UseComma"
+			  extraction: "NoPrefix|UseComma",
+			  style: "mb-3"
 			})
+		  },
+		  angleXaxis_text: {
+                el: new inputSpinner(config, {
+					no: 'angleXaxis_text',
+                    label: localization.en.angleXaxis_text,
+					required: true,
+                    min: 0,
+                    max: 360,
+                    step: 1,
+                    value: 0,
+                    extraction: "NoPrefix",
+                    width: "w-25",
+            })
 		  },
         };
         const content = {
@@ -223,7 +241,8 @@ rm({{dataset.name}}_tmp)
 					objects.G_variableSelcted.el.content,
 					objects.printStatChk.el.content,
 					objects.pctMeanRangeAsYoffset.el.content,
-					objects.pctMeanRangeAsXoffset.el.content,
+					objects.pctMeanRangeAsXoffset.el.content, 
+					objects.angleXaxis_text.el.content,
 					],
             nav: {
                 name: localization.en.navigation,
