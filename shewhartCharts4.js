@@ -1,117 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Shewhart charts (I-MR Between/Within)",
-		navigation: "Shewhart charts (I-MR Between/Within), Basic",
-		
-		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
-		
-		selectVariableRad: "Option 1: Select a variable from the dataset that needs to be grouped",
-		variableSelcted: "Variable (observed data) to chart",
-		
-		groupingVariable: "Grouping Variable",
-		variableControlLimits: "Rows to be discarded if any before grouping for variable control limits (i.e. variable sample sizes)  e.g. specify as 1:25 or 1,4,5,7:12",
-		displayGroupsChk: "Display the groupings on the dataset UI grid",
-		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to chart", 
-		
-		showMRChartChk: "Show the MR chart of subgroup means",
-		
-		printStatChk: "Print stats in addition to charts",
-		printObjectSummaryChk: "Print QCC object summary",
-		printTestSummaryChk: "Print summary from the tests for special causes",
-		printTestDetailChk: "Print details from the tests for special causes",
-		markTestNumberChk: "Mark Test Number on the chart (only the first test number will be marked if more than one tests found to be violated by a data point)",
-		
-		rowsTobeUsed: "Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedAsNewData: "New Data - grouped Rows to be used as New Data to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the computations",
-		
-		additionalPhasesLabel: "Specify data to Chart additional phases (limited to max of 10 phases to be practical to plot on a single chart)",
-		rowsTobeUsedPhase2: "Phase 2 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase3: "Phase 3 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase4: "Phase 4 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase5: "Phase 5 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase6: "Phase 6 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase7: "Phase 7 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase8: "Phase 8 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase9: "Phase 9 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase10: "Phase 10 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		phaseNames: "Specify phase names (comma separated) for a multi-phase chart - default phase names are Phase 1, Phase 2, ...",
-		
-		nsigmas: "Sigma - number of sigmas to use for computing control limits. It is ignored when the confidence.level argument is provided",
-		confidence_level: "Confidence Level - value between 0 and 1 specifying the confidence level of the computed probability limits",
-		sdWarnLimits: "Add additional limit lines (comma separated) on the plot at the specific std. deviations (e.g. 1.5, 2)",
-		
-		digits: "Digits - number of digits to display",
-		
-		// xbarStddev: "Xbar chart - Standard deviation method to be used",
-		// RStddev: "R chart - Standard deviation method to be used",
-		SStddev: "Standard deviation method to be used for the underlying 'Within' S chart",
-		
-		lower: "LSL - numeric value of lower specification limit to plot a LSL line",
-		upper: "USL - numeric value of upper specification limit to plot a USL line",
-		
-		
-		performTestLabel: "Perform selected tests for special causes",
-		
-		test1Chk: "Perform test 1",
-		test2Chk: "Perform test 2",
-		test3Chk: "Perform test 3",
-		test4Chk: "Perform test 4",
-		test5Chk: "Perform test 5",
-		test6Chk: "Perform test 6",
-		test7Chk: "Perform test 7",
-		test8Chk: "Perform test 8",
-		
-		test1: "One point more than Kσ from center line (default 3)",
-		test2: "K points in a row on the same side of the center line (defualt 9)",
-		test3: "K points in a row, all increasing or all decreasing (default 6)",
-		test4: "K points in a row, alternating up and down (defult 14)",
-		test5: "K out of K+1 points more than 2σ from the center line same side (defualt 2 out of 2+1)",
-		test6: "K out of K+1 points more than 1σ from center line same side (default 4 out of 4+1)",
-		test7: "K points in a row within 1σ of center line either side (default 15)",
-		test8: "K points in a row more than 1σ from center line either side (defualt 8)",
-		
-		
-		help: {
-            title: "Shewhart charts (I-MR Between/Within Charts)",
-            r_help: "help(qcc, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				qcc function to to perform statistical quality control and to plot Shewhart charts
-				<br/>
-				<br/>
-				For the detail help - use R help(qcc, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
-				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, click run
-				<br/>
-				Additionally, type 1:20 in Grouped rows to be used, click run 
-				<br/>
-				To plot a chart with multple phase
-				<br/>
-				Type 25:30 in Phase 2 Grouped rows
-				<br/>
-				Type 31:38 in Phase 3 Grouped rows
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-	
-		
-	}
-}
+
 
 class shewhartCharts4 extends baseModal {
+    static dialogId = 'shewhartCharts4'
+    static t = baseModal.makeT(shewhartCharts4.dialogId)
+
     constructor() {
         var config = {
-            id: "shewhartCharts4",
-            label: localization.en.title,
+            id: shewhartCharts4.dialogId,
+            label: shewhartCharts4.t('title'),
             modalType: "two",
             RCode:`
 require(qcc)
@@ -346,7 +243,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			/*
 			chartTypeXbarChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeXbarChk, 
+                    label: shewhartCharts4.t('chartTypeXbarChk'), 
 					no: "chartTypeXbarChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -359,7 +256,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			chartTypeRChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeRChk, 
+                    label: shewhartCharts4.t('chartTypeRChk'), 
 					no: "chartTypeRChk",
                     bs_type: "valuebox",
                     style: "mb-1",
@@ -371,7 +268,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			chartTypeSChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeSChk, 
+                    label: shewhartCharts4.t('chartTypeSChk'), 
 					no: "chartTypeSChk",
                     bs_type: "valuebox",
                     style: "mb-2",
@@ -385,14 +282,14 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: shewhartCharts4.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			selectDatasetRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectDatasetRad,
+                    label: shewhartCharts4.t('selectDatasetRad'),
                     no: "gpbox1",
                     increment: "selectDatasetRad",
                     value: "dataset",
@@ -403,7 +300,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			variablelistSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variablelistSelcted,
+                    label: shewhartCharts4.t('variablelistSelcted'),
                     no: "variablelistSelcted",
                     required: false,
                     filter: "Numeric|Scale",
@@ -413,7 +310,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			selectVariableRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectVariableRad,
+                    label: shewhartCharts4.t('selectVariableRad'),
                     no: "gpbox1",
                     increment: "selectVariableRad",
                     value: "variable",
@@ -423,7 +320,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableSelcted,
+                    label: shewhartCharts4.t('variableSelcted'),
                     no: "variableSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -436,7 +333,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			/*
 			groupingNeededChk: {
                 el: new checkbox(config, {
-                    label: localization.en.groupingNeededChk, 
+                    label: shewhartCharts4.t('groupingNeededChk'), 
 					no: "groupingNeededChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1, ml-3",
@@ -450,7 +347,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: shewhartCharts4.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -460,7 +357,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			displayGroupsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.displayGroupsChk, 
+                    label: shewhartCharts4.t('displayGroupsChk'), 
 					no: "displayGroupsChk",
                     bs_type: "valuebox",
                     style: "mt-2 ml-5 mb-2",
@@ -473,7 +370,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
-                    label: localization.en.variableControlLimits,
+                    label: shewhartCharts4.t('variableControlLimits'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -487,7 +384,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			
 			showMRChartChk: {
                 el: new checkbox(config, {
-                    label: localization.en.showMRChartChk, 
+                    label: shewhartCharts4.t('showMRChartChk'), 
 					no: "showMRChartChk",
                     extraction: "Boolean",
 					state: "checked",
@@ -497,7 +394,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			
 			printStatChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printStatChk, 
+                    label: shewhartCharts4.t('printStatChk'), 
 					no: "printStatChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -510,7 +407,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			printObjectSummaryChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printObjectSummaryChk, 
+                    label: shewhartCharts4.t('printObjectSummaryChk'), 
 					no: "printObjectSummaryChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -523,7 +420,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			printTestSummaryChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printTestSummaryChk, 
+                    label: shewhartCharts4.t('printTestSummaryChk'), 
 					no: "printTestSummaryChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -536,7 +433,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			printTestDetailChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printTestDetailChk, 
+                    label: shewhartCharts4.t('printTestDetailChk'), 
 					no: "printTestDetailChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -548,7 +445,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			markTestNumberChk: {
                 el: new checkbox(config, {
-                    label: localization.en.markTestNumberChk, 
+                    label: shewhartCharts4.t('markTestNumberChk'), 
 					no: "markTestNumberChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -563,7 +460,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: shewhartCharts4.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -578,7 +475,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedAsNewData: {
                 el: new input(config, {
                     no: 'rowsTobeUsedAsNewData',
-                    label: localization.en.rowsTobeUsedAsNewData,
+                    label: shewhartCharts4.t('rowsTobeUsedAsNewData'),
                     placeholder: "",
                     required: false,
 					filter: "character|numeric",
@@ -591,7 +488,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			additionalPhasesLabel: { 
 				el: new labelVar(config, { 
-					label: localization.en.additionalPhasesLabel, 
+					label: shewhartCharts4.t('additionalPhasesLabel'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
@@ -599,7 +496,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			phaseNames: {
                 el: new input(config, {
                     no: 'phaseNames',
-                    label: localization.en.phaseNames,
+                    label: shewhartCharts4.t('phaseNames'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -612,7 +509,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase2: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase2',
-                    label: localization.en.rowsTobeUsedPhase2,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase2'),
                     placeholder: "",
                     required: false,
 					filter: "character|numeric",
@@ -627,7 +524,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase3: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase3',
-                    label: localization.en.rowsTobeUsedPhase3,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase3'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -642,7 +539,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase4: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase4',
-                    label: localization.en.rowsTobeUsedPhase4,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase4'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -657,7 +554,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase5: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase5',
-                    label: localization.en.rowsTobeUsedPhase5,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase5'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -672,7 +569,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase6: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase6',
-                    label: localization.en.rowsTobeUsedPhase6,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase6'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -687,7 +584,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase7: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase7',
-                    label: localization.en.rowsTobeUsedPhase7,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase7'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -702,7 +599,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase8: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase8',
-                    label: localization.en.rowsTobeUsedPhase8,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase8'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -717,7 +614,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase9: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase9',
-                    label: localization.en.rowsTobeUsedPhase9,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase9'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -732,7 +629,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			rowsTobeUsedPhase10: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase10',
-                    label: localization.en.rowsTobeUsedPhase10,
+                    label: shewhartCharts4.t('rowsTobeUsedPhase10'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -747,7 +644,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			nsigmas: {
                 el: new input(config, {
                     no: 'nsigmas',
-                    label: localization.en.nsigmas,
+                    label: shewhartCharts4.t('nsigmas'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -760,7 +657,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			confidence_level: {
                 el: new input(config, {
                     no: 'confidence_level',
-                    label: localization.en.confidence_level,
+                    label: shewhartCharts4.t('confidence_level'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -774,7 +671,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			sdWarnLimits: {
                 el: new input(config, {
                     no: 'sdWarnLimits',
-                    label: localization.en.sdWarnLimits,
+                    label: shewhartCharts4.t('sdWarnLimits'),
                     placeholder: "",
                     required: false,
                     filter: "character|numeric",
@@ -788,7 +685,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: shewhartCharts4.t('digits'),
                     required: true,
                     min: 0,
                     max: 15,
@@ -803,7 +700,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			xbarStddev: {
                 el: new selectVar(config, {
                     no: 'xbarStddev',
-                    label: localization.en.xbarStddev,
+                    label: shewhartCharts4.t('xbarStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["UWAVE-SD", "RMSDF", "UWAVE-R", "MVLUE-R", "MVLUE-SD"],
@@ -815,7 +712,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			RStddev: {
                 el: new selectVar(config, {
                     no: 'RStddev',
-                    label: localization.en.RStddev,
+                    label: shewhartCharts4.t('RStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["UWAVE-R", "MVLUE-R"],
@@ -828,7 +725,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			SStddev: {
                 el: new selectVar(config, {
                     no: 'SStddev',
-                    label: localization.en.SStddev,
+                    label: shewhartCharts4.t('SStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["MVLUE-SD", "UWAVE-SD", "RMSDF"], 
@@ -843,7 +740,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			lower: {
                 el: new input(config, {
                     no: 'lower',
-                    label: localization.en.lower,
+                    label: shewhartCharts4.t('lower'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -857,7 +754,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			upper: {
                 el: new input(config, {
                     no: 'upper',
-                    label: localization.en.upper,
+                    label: shewhartCharts4.t('upper'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -871,14 +768,14 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			
 			performTestLabel: { 
 				el: new labelVar(config, { 
-					label: localization.en.performTestLabel, 
+					label: shewhartCharts4.t('performTestLabel'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			test1Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test1Chk, 
+                    label: shewhartCharts4.t('test1Chk'), 
 					no: "test1Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -891,7 +788,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test2Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test2Chk, 
+                    label: shewhartCharts4.t('test2Chk'), 
 					no: "test2Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -904,7 +801,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test3Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test3Chk, 
+                    label: shewhartCharts4.t('test3Chk'), 
 					no: "test3Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -916,7 +813,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test4Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test4Chk, 
+                    label: shewhartCharts4.t('test4Chk'), 
 					no: "test4Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -928,7 +825,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test5Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test5Chk, 
+                    label: shewhartCharts4.t('test5Chk'), 
 					no: "test5Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -940,7 +837,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test6Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test6Chk, 
+                    label: shewhartCharts4.t('test6Chk'), 
 					no: "test6Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -952,7 +849,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test7Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test7Chk, 
+                    label: shewhartCharts4.t('test7Chk'), 
 					no: "test7Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -964,7 +861,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
             },
 			test8Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test8Chk, 
+                    label: shewhartCharts4.t('test8Chk'), 
 					no: "test8Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -977,7 +874,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test1: {
                 el: new input(config, {
                     no: 'test1',
-                    label: localization.en.test1,
+                    label: shewhartCharts4.t('test1'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -991,7 +888,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test2: {
                 el: new input(config, {
                     no: 'test2',
-                    label: localization.en.test2,
+                    label: shewhartCharts4.t('test2'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1005,7 +902,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test3: {
                 el: new input(config, {
                     no: 'test3',
-                    label: localization.en.test3,
+                    label: shewhartCharts4.t('test3'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1019,7 +916,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test4: {
                 el: new input(config, {
                     no: 'test4',
-                    label: localization.en.test4,
+                    label: shewhartCharts4.t('test4'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1033,7 +930,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test5: {
                 el: new input(config, {
                     no: 'test5',
-                    label: localization.en.test5,
+                    label: shewhartCharts4.t('test5'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1047,7 +944,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test6: {
                 el: new input(config, {
                     no: 'test6',
-                    label: localization.en.test6,
+                    label: shewhartCharts4.t('test6'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1061,7 +958,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test7: {
                 el: new input(config, {
                     no: 'test7',
-                    label: localization.en.test7,
+                    label: shewhartCharts4.t('test7'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1075,7 +972,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 			test8: {
                 el: new input(config, {
                     no: 'test8',
-                    label: localization.en.test8,
+                    label: shewhartCharts4.t('test8'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1164,13 +1061,22 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
 					objects.test8.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: shewhartCharts4.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: shewhartCharts4.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: shewhartCharts4.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new shewhartCharts4().render()
+
+module.exports = {
+    render: () => new shewhartCharts4().render()
+}

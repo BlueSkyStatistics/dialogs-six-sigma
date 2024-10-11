@@ -1,51 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Gage Bias Analysis, Basic",
-		navigation: "Gage Bias Analysis, Basic",
-		
-		//label2: "Two options - either select a non-normal variable to transform to normal if not grouped or select the entire dataset to transform if already grouped",
-		//selectVariableRad: "Option 1: Select a non-normal variable from the dataset to be transformed to normal",
-		
-		//variablePartSelcted: "Select the variable for sample/part",
-		//variableOpSelcted: "Select the variable for appraiser/operator",
-		variableRespSelcted: "(Optional if bias variable is selected) Select the variable for measurement/response",
-		variableRefSelcted: "Select the variable for reference/standard value",
-		variableBiasSelcted: "(Optional) Select the variable for bias if avaiable; Otherwise it will be computed automatically",
-		
-		alpha: "Confidence interval for linearity (between 0 to 1)",
-		
-		//rowsTobeUsed: "Leave blank if all the rows to be used. Otherwise specify the Rows to be used to analyze (e.g.  specify as 1:25 or 1,4,5,7:12)",
-		
-		//boxcoxChk: "Box-Cox transformation",
-		//johnsonChk: "Johnson transformation",
-		//digits: "Digits - rounds to the specified number of decimal places",
-		
-		help: {
-            title: "Gage bias analysis",
-            r_help: "help(lm, package = stats)",
-			body: `
-				<b>Description</b></br>
-				Function to perform linearity bias analysis
-				<br/>
-				<br/>
-				For the detail help - use R help(lm, package = stats)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset files linearityBias.xlsx. Open the files in the data grid with file open menu
-				<br/>
-				Choose the variables from the selection box, Reference and Measurement
-				<br/>
-			`
-		},
-	}
-}
+
 
 class GageBiasAnalysis extends baseModal {
+    static dialogId = 'GageBiasAnalysis'
+    static t = baseModal.makeT(GageBiasAnalysis.dialogId)
+
     constructor() {
         var config = {
-            id: "GageBiasAnalysis",
-            label: localization.en.title,
+            id: GageBiasAnalysis.dialogId,
+            label: GageBiasAnalysis.t('title'),
             modalType: "two",
             RCode:`
 
@@ -127,7 +90,7 @@ require(ggplot2)
 			/*
 			boxcoxChk: {
                 el: new checkbox(config, {
-                    label: localization.en.boxcoxChk, 
+                    label: GageBiasAnalysis.t('boxcoxChk'), 
 					no: "boxcoxChk",
                     bs_type: "valuebox",
                     //style: "mt-2 mb-1",
@@ -140,7 +103,7 @@ require(ggplot2)
             },
 			johnsonChk: {
                 el: new checkbox(config, {
-                    label: localization.en.johnsonChk, 
+                    label: GageBiasAnalysis.t('johnsonChk'), 
 					no: "johnsonChk",
                     bs_type: "valuebox",
                     style: "mb-2",
@@ -153,7 +116,7 @@ require(ggplot2)
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: GageBiasAnalysis.t('digits'),
                     required: true,
                     min: 0,
                     max: 15,
@@ -165,7 +128,7 @@ require(ggplot2)
             },     
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: GageBiasAnalysis.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
@@ -174,7 +137,7 @@ require(ggplot2)
 			/*
 			variablePartSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variablePartSelcted,
+                    label: GageBiasAnalysis.t('variablePartSelcted'),
                     no: "variablePartSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -185,7 +148,7 @@ require(ggplot2)
             },
 			variableOpSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableOpSelcted,
+                    label: GageBiasAnalysis.t('variableOpSelcted'),
                     no: "variableOpSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -197,7 +160,7 @@ require(ggplot2)
 			*/
 			variableRespSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableRespSelcted,
+                    label: GageBiasAnalysis.t('variableRespSelcted'),
                     no: "variableRespSelcted",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -208,7 +171,7 @@ require(ggplot2)
             },
 			variableRefSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableRefSelcted,
+                    label: GageBiasAnalysis.t('variableRefSelcted'),
                     no: "variableRefSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -219,7 +182,7 @@ require(ggplot2)
             },
 			variableBiasSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableBiasSelcted,
+                    label: GageBiasAnalysis.t('variableBiasSelcted'),
                     no: "variableBiasSelcted",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -231,7 +194,7 @@ require(ggplot2)
 			alpha: {
                 el: new input(config, {
                     no: 'alpha',
-                    label: localization.en.alpha,
+                    label: GageBiasAnalysis.t('alpha'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -246,7 +209,7 @@ require(ggplot2)
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: GageBiasAnalysis.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -281,13 +244,22 @@ require(ggplot2)
 					//objects.digits.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: GageBiasAnalysis.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: GageBiasAnalysis.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: GageBiasAnalysis.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new GageBiasAnalysis().render()
+
+module.exports = {
+    render: () => new GageBiasAnalysis().render()
+}

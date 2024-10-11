@@ -1,59 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Multivariate Quality Control Chart (MQCC)",
-		navigation: "MQCC Chart",
-		
-		summaryPrintChk: "Print summary in addition to chart(s)",
-		
-		variableListSelcted: "Data (select one or more variables) to chart",
-		groupingVariable: "(Optional) Select grouping Variable if subgroups are present",
-		excludeGroups: "(Optional) exclude groups (if subgroups are numeric) from computation/charting (e.g. specify as 1:10 or comma seperated as 1,4,5,7:12)",
-		groupsTobeUsedAsNewData: "(Optional) New Data - groups (if subgroups are numeric) to be used as New Data to chart (e.g. specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the limit computations",
-		
-		limitsChk: "If control limits (Phase I) must be computed and plotted",
-		pred_limitsChk: "If prediction limits (Phase II) must be computed and plotted",
-		
-		confidence_level: "(Optional) Confidence level: leave the deafult formula as shown (where p will be computed automatically as the number of variables selected). Otherwise specify a numeric value between 0 and 1 to be used as the confidence level to compute the probability limits",
-		
-		genVarianceChk: "Plot control chart for the Generalized Variance |S| for the variables selected (and a grouping variable must be selected)",
-		
-		help: {
-            title: "Multivariate Quality Control Chart(mqcc)",
-            r_help: "help(mqcc, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				mqcc function to perform multivariate statistical quality control and the generalized variance |S|
-				<br/>
-				<br/>
-				For the detail help - use R help(mqcc, package = qcc) and help(GVcontrol, package = IAcsSPCR)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called boiler from the qcc package with Load Dataset menu by selecting qcc package and then select boiler dataset to load
-				<br/>
-				<br/>
-				Seelct the variables from the boiler dataset, leave everything as deafult, and run the dialog
-				<br/>
-				<br/>
-				You may also use the sample dataset file called widgets_mqcc.xlsx. Open the file in the data grid with file open menu
-				<br/>
-				<br/>
-				To plot generalized variance |S|, the dataset must have a column with the subgroup numbers - othrwise it will not plot
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-		
-	}
-}
+
 
 class mqccChart extends baseModal {
+    static dialogId = 'mqccChart'
+    static t = baseModal.makeT(mqccChart.dialogId)
+
     constructor() {
         var config = {
-            id: "mqccChart",
-            label: localization.en.title,
+            id: mqccChart.dialogId,
+            label: mqccChart.t('title'),
             modalType: "two",
             RCode:`
 	
@@ -189,7 +144,7 @@ class mqccChart extends baseModal {
 			content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) }, 
 			summaryPrintChk: {
                 el: new checkbox(config, {
-                    label: localization.en.summaryPrintChk, 
+                    label: mqccChart.t('summaryPrintChk'), 
 					no: "summaryPrintChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -202,7 +157,7 @@ class mqccChart extends baseModal {
 			/*
             dataSelected: {
                 el: new dstVariableList(config, {
-                    label: localization.en.dataSelected,
+                    label: mqccChart.t('dataSelected'),
                     no: "dataSelected",
                     filter: "Dataset",
                     extraction: "UseComma|NoPrefix|Enclosed",
@@ -212,7 +167,7 @@ class mqccChart extends baseModal {
             },
             newDataSelected: {
                 el: new dstVariableList(config, {
-                    label: localization.en.newDataSelected,
+                    label: mqccChart.t('newDataSelected'),
                     no: "newDataSelected",
                     filter: "Dataset",
                     //extraction: "UseComma|Enclosed",
@@ -223,7 +178,7 @@ class mqccChart extends baseModal {
 			*/
 			variableListSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variableListSelcted,
+                    label: mqccChart.t('variableListSelcted'),
                     no: "variableListSelcted",
                     required: true,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -234,7 +189,7 @@ class mqccChart extends baseModal {
             },
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: mqccChart.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -245,7 +200,7 @@ class mqccChart extends baseModal {
 			excludeGroups: {
                 el: new input(config, {
                     no: 'excludeGroups',
-                    label: localization.en.excludeGroups,
+                    label: mqccChart.t('excludeGroups'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -259,7 +214,7 @@ class mqccChart extends baseModal {
 			groupsTobeUsedAsNewData: {
                 el: new input(config, {
                     no: 'groupsTobeUsedAsNewData',
-                    label: localization.en.groupsTobeUsedAsNewData,
+                    label: mqccChart.t('groupsTobeUsedAsNewData'),
                     placeholder: "",
                     required: false,
 					filter: "character|numeric",
@@ -273,7 +228,7 @@ class mqccChart extends baseModal {
 			confidence_level: {
                 el: new input(config, {
                     no: 'confidence_level',
-                    label: localization.en.confidence_level,
+                    label: mqccChart.t('confidence_level'),
                     //placeholder: "",
                     required: false,
                     //type: "numeric",
@@ -288,7 +243,7 @@ class mqccChart extends baseModal {
             },
 			limitsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.limitsChk, 
+                    label: mqccChart.t('limitsChk'), 
 					no: "limitsChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -301,7 +256,7 @@ class mqccChart extends baseModal {
             },
 			pred_limitsChk: { 
                 el: new checkbox(config, {
-                    label: localization.en.pred_limitsChk, 
+                    label: mqccChart.t('pred_limitsChk'), 
 					no: "pred_limitsChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -313,7 +268,7 @@ class mqccChart extends baseModal {
             },
 			genVarianceChk: { 
                 el: new checkbox(config, {
-                    label: localization.en.genVarianceChk, 
+                    label: mqccChart.t('genVarianceChk'), 
 					no: "genVarianceChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -342,14 +297,23 @@ class mqccChart extends baseModal {
 					objects.genVarianceChk.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: mqccChart.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: mqccChart.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: mqccChart.t('help.body')
+        }
+;
     }
 
 }
-module.exports.item = new mqccChart().render()
+
+module.exports = {
+    render: () => new mqccChart().render()
+}

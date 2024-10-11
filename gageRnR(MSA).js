@@ -1,46 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Gage R&R - Measurement System Analysis, Basic",
-		navigation: "Gage R&R, Basic",
-		mainTitle: "Main title for the graphic output",
-		subTitle: "Subtitle for the graphic output (e.g. the name of the SixSigma project)",
-		measuredVar: "Measured variable",
-		part: "Part variable",
-		appr: "Appraiser (operators, machines, ...) variable",
-		lsl: "LSL - numeric value of lower specification limit used with USL to calculate Study Variation as %Tolerance",
-		usl: "USL - numeric value of upper specification limit used with LSL to calculate Study Variation as %Tolerance",
-		sigma: "Sigma - numeric value for number of std deviations to use in calculating Study Variation",
-		tolerance: "Tolerance - numeric value for the tolerance - default (usl - lsl)",
-		alphaLim: "Alpha - Limit to take into account interaction",
-		errorTerm: "Which term of the model should be used as error term (for the model with interation)",
-		//method: "Type of analysis to perform, crossed (default) or nested",
-		
-		help: {
-            title: "Gage R&R - Measurement System Analysis",
-            r_help: "help(ss.rr, package = SixSigma)",
-			body: `
-				<b>Description</b></br>
-				ss.rr function to perform Gage R&R analysis for the assessment of the measurement system of a process
-				<br/>
-				<br/>
-				For the detail help - use R help(ss.rr, package = SixSigma)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset file called gageR_R_piston_diameter_with_measurements.xlsx. Open the file in the data grid with file open menu
-				<br/>
-				from the sample dataset, select diameter variable to Measured variable, Pistonring to Part variable and Operator to Appraiser 
-				<br/>
-			`
-		},
-	}
-}
+
 
 class gageRnR extends baseModal {
+    static dialogId = 'gageRnR'
+    static t = baseModal.makeT(gageRnR.dialogId)
+
     constructor() {
         var config = {
-            id: "gageRnR",
-            label: localization.en.title,
+            id: gageRnR.dialogId,
+            label: gageRnR.t('title'),
             modalType: "two",
             RCode: `
 require(SixSigma)
@@ -86,7 +54,7 @@ require(SixSigma)
 			mainTitle: {
                 el: new input(config, {
                     no: 'mainTitle',
-                    label: localization.en.mainTitle,
+                    label: gageRnR.t('mainTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -98,7 +66,7 @@ require(SixSigma)
 			subTitle: {
                 el: new input(config, {
                     no: 'subTitle',
-                    label: localization.en.subTitle,
+                    label: gageRnR.t('subTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -109,7 +77,7 @@ require(SixSigma)
             },
 			measuredVar: {
                 el: new dstVariable(config, {
-                    label: localization.en.measuredVar,
+                    label: gageRnR.t('measuredVar'),
                     no: "measuredVar",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -118,7 +86,7 @@ require(SixSigma)
             },
 			part: {
                 el: new dstVariable(config, {
-                    label: localization.en.part,
+                    label: gageRnR.t('part'),
                     no: "part",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -127,7 +95,7 @@ require(SixSigma)
             },
 			appr: {
                 el: new dstVariable(config, {
-                    label: localization.en.appr,
+                    label: gageRnR.t('appr'),
                     no: "appr",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -137,7 +105,7 @@ require(SixSigma)
 			lsl: {
                 el: new input(config, {
                     no: 'lsl',
-                    label: localization.en.lsl,
+                    label: gageRnR.t('lsl'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -149,7 +117,7 @@ require(SixSigma)
 			usl: {
                 el: new input(config, {
                     no: 'usl',
-                    label: localization.en.usl,
+                    label: gageRnR.t('usl'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -161,7 +129,7 @@ require(SixSigma)
 			sigma: {
                 el: new input(config, {
                     no: 'sigma',
-                    label: localization.en.sigma,
+                    label: gageRnR.t('sigma'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -173,7 +141,7 @@ require(SixSigma)
 			tolerance: {
                 el: new input(config, {
                     no: 'tolerance',
-                    label: localization.en.tolerance,
+                    label: gageRnR.t('tolerance'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -185,7 +153,7 @@ require(SixSigma)
 			alphaLim: {
                 el: new input(config, {
                     no: 'alphaLim',
-                    label: localization.en.alphaLim,
+                    label: gageRnR.t('alphaLim'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -197,7 +165,7 @@ require(SixSigma)
 			errorTerm: {
                 el: new input(config, {
                     no: 'errorTerm',
-                    label: localization.en.errorTerm,
+                    label: gageRnR.t('errorTerm'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -210,7 +178,7 @@ require(SixSigma)
 			method: {
                 el: new selectVar(config, {
                     no: 'method',
-                    label: localization.en.method,
+                    label: gageRnR.t('method'),
                     multiple: false,
                     required: true,
                     extraction: "NoPrefix|UseComma",
@@ -236,13 +204,22 @@ require(SixSigma)
 					objects.errorTerm.el.content],
 					//objects.method.el.content],
             nav: {
-                name: localization.en.navigation,
+                name: gageRnR.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: gageRnR.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: gageRnR.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new gageRnR().render()
+
+module.exports = {
+    render: () => new gageRnR().render()
+}

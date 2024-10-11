@@ -1,64 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Cusum chart",
-		navigation: "Cusum chart",
-		
-		summaryPrintChk: "Print summary in addition to charts",
-		//ocCurvesChk: "Plot operating characteristic curves where applicable",
-		
-		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
-		
-		selectVariableRad: "Option 1: Select a variable from the dataset that needs to be grouped",
-		variableSelcted: "Variable(observed data) to chart",
-		groupingNeededChk: "Required for xbar, R and S charts - Variable to use for grouping data",
-		groupingVariable: "Grouping Variable",
-		variableControlLimits: "Rows to be discarded if any before grouping for variable control limits e.g. specify as 1:25 or 1,4,5,7:12",
-		displayGroupsChk: "Display the groupings on the dataset UI grid",
-		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to chart", 
-		
-		decisionInterval: "decision Interval - the number of standard errors of the summary statistics at which the cumulative sum is out of control",
-		seShift: "Shif - the amount of shift to detect in the process, measured in standard errors of the summary statistics",
-		
-		rowsTobeUsed: "Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedAsNewData: "New Data - grouped Rows to be used as New Data to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the computations",
-		
-		//nsigmas: "Sigma - number of sigmas to use for computing control limits. It is ignored when the confidence.level argument is provided",
-		//confidence_level: "Confidence Level - value between 0 and 1 specifying the confidence level of the computed probability limits",
-		//sdWarnLimits: "Add warning limits (e.g. 2) at the specific std. deviations (for xbar charts only)",
-		
-		help: {
-            title: "Cusum chart",
-            r_help: "help(qcc, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				qcc function to to perform statistical quality control and to plot Shewhart charts
-				<br/>
-				<br/>
-				For the detail help - use R help(qcc, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
-				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, 
-				<br/>
-				Type 1:25 in Grouped rows to be used, 30:40 in New Data
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-	}
-}
+
 
 class cusumChart extends baseModal {
+    static dialogId = 'cusumChart'
+    static t = baseModal.makeT(cusumChart.dialogId)
+
     constructor() {
         var config = {
-            id: "cusumChart",
-            label: localization.en.title,
+            id: cusumChart.dialogId,
+            label: cusumChart.t('title'),
             modalType: "two",
             RCode:`
 require(qcc)
@@ -124,7 +74,7 @@ cat("Charts selected: Cusum")
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) },
 			summaryPrintChk: {
                 el: new checkbox(config, {
-                    label: localization.en.summaryPrintChk, 
+                    label: cusumChart.t('summaryPrintChk'), 
 					no: "summaryPrintChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -136,14 +86,14 @@ cat("Charts selected: Cusum")
             },
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: cusumChart.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			selectDatasetRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectDatasetRad,
+                    label: cusumChart.t('selectDatasetRad'),
                     no: "gpbox1",
                     increment: "selectDatasetRad",
                     value: "dataset",
@@ -154,7 +104,7 @@ cat("Charts selected: Cusum")
             },
 			variablelistSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variablelistSelcted,
+                    label: cusumChart.t('variablelistSelcted'),
                     no: "variablelistSelcted",
                     required: false,
                     filter: "Numeric|Scale",
@@ -164,7 +114,7 @@ cat("Charts selected: Cusum")
             },
 			selectVariableRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectVariableRad,
+                    label: cusumChart.t('selectVariableRad'),
                     no: "gpbox1",
                     increment: "selectVariableRad",
                     value: "variable",
@@ -174,7 +124,7 @@ cat("Charts selected: Cusum")
             },
 			variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableSelcted,
+                    label: cusumChart.t('variableSelcted'),
                     no: "variableSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -185,7 +135,7 @@ cat("Charts selected: Cusum")
             },
 			groupingNeededChk: {
                 el: new checkbox(config, {
-                    label: localization.en.groupingNeededChk, 
+                    label: cusumChart.t('groupingNeededChk'), 
 					no: "groupingNeededChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1, ml-3",
@@ -197,7 +147,7 @@ cat("Charts selected: Cusum")
             },
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: cusumChart.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -207,7 +157,7 @@ cat("Charts selected: Cusum")
             },
 			displayGroupsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.displayGroupsChk, 
+                    label: cusumChart.t('displayGroupsChk'), 
 					no: "displayGroupsChk",
                     bs_type: "valuebox",
                     style: "mt-2 ml-5 mb-2",
@@ -220,7 +170,7 @@ cat("Charts selected: Cusum")
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
-                    label: localization.en.variableControlLimits,
+                    label: cusumChart.t('variableControlLimits'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -233,7 +183,7 @@ cat("Charts selected: Cusum")
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: cusumChart.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -247,7 +197,7 @@ cat("Charts selected: Cusum")
 			rowsTobeUsedAsNewData: {
                 el: new input(config, {
                     no: 'rowsTobeUsedAsNewData',
-                    label: localization.en.rowsTobeUsedAsNewData,
+                    label: cusumChart.t('rowsTobeUsedAsNewData'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -260,7 +210,7 @@ cat("Charts selected: Cusum")
 			decisionInterval: {
                 el: new input(config, {
                     no: 'decisionInterval',
-                    label: localization.en.decisionInterval,
+                    label: cusumChart.t('decisionInterval'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -273,7 +223,7 @@ cat("Charts selected: Cusum")
 			seShift: {
                 el: new input(config, {
                     no: 'seShift',
-                    label: localization.en.seShift,
+                    label: cusumChart.t('seShift'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -307,13 +257,22 @@ cat("Charts selected: Cusum")
 					objects.rowsTobeUsedAsNewData.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: cusumChart.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: cusumChart.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: cusumChart.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new cusumChart().render()
+
+module.exports = {
+    render: () => new cusumChart().render()
+}

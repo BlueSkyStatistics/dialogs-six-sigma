@@ -1,47 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Pareto Chart, Basic",
-		navigation: "Pareto Chart, Basic",
-		
-		label1: "Two options - Long format (default) i.e. categories and counts in vertical columns and Wide format i.e. categories as column names and counts as row",
-		selectLongRad: "Option 1: Long format - choose categories and counts",
-		selectWideRad: "Option 2: Wide format - Columns names will be used as categories and 1st row (default) will be used as counts",
-		rownumForCounts: "Row number (default 1st row) to be used for counts",
-		
-		mainTitle: "Chart Title",
-		category: "Variable (e.g. categories) to plot",
-		counts: "Variable to use as counts to plot",
-        xlab: "A string specifying the label for the x-axis",
-        ylab: "A string specifying the label for the y-axis",
-		ylab2: "A string specifying the label for the second y-axis on the right side",
-		percentStep: "Percentage step to be used as tickmarks for the second y-axis on the right side",
-		digits: "Number of decimal points for the Stats table",
-		
-		help: {
-            title: "Pareto Chart",
-            r_help: "help(pareto.chart, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				pareto.chart function to create a table of statistics and plot a Pareto chart
-				<br/>
-				<br/>
-				For the detail help - use R help(pareto.chart, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset file called defects_frequency_pareto_chart.xlsx. Open the file in the data grid with file open menu
-				<br/>
-			`
-		},
-		
-	}
-}
+
 
 class paretoChart extends baseModal {
+    static dialogId = 'paretoChart'
+    static t = baseModal.makeT(paretoChart.dialogId)
+
     constructor() {
         var config = {
-            id: "paretoChart",
-            label: localization.en.title,
+            id: paretoChart.dialogId,
+            label: paretoChart.t('title'),
             modalType: "two",
             RCode: `
 require(qcc)
@@ -98,14 +65,14 @@ if(!is.null(xstats))
             content_var: { el: new srcVariableList(config, {action: "move"}) },
 			label1: { 
 				el: new labelVar(config, { 
-					label: localization.en.label1, 
+					label: paretoChart.t('label1'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			selectLongRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectLongRad,
+                    label: paretoChart.t('selectLongRad'),
                     no: "gpbox1",
                     increment: "selectLongRad",
                     value: "long",
@@ -116,7 +83,7 @@ if(!is.null(xstats))
             },
 			selectWideRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectWideRad,
+                    label: paretoChart.t('selectWideRad'),
                     no: "gpbox1",
                     increment: "selectWideRad",
                     value: "wide",
@@ -127,7 +94,7 @@ if(!is.null(xstats))
 			rownumForCounts: {
                 el: new inputSpinner(config, {
                     no: 'rownumForCounts',
-                    label: localization.en.rownumForCounts,
+                    label: paretoChart.t('rownumForCounts'),
                     required: true,
                     min: 1,
                     max: 99999,
@@ -140,7 +107,7 @@ if(!is.null(xstats))
 			mainTitle: {
                 el: new input(config, {
                     no: 'mainTitle',
-                    label: localization.en.mainTitle,
+                    label: paretoChart.t('mainTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -151,7 +118,7 @@ if(!is.null(xstats))
             },
 			category: {
                 el: new dstVariable(config, {
-                    label: localization.en.category,
+                    label: paretoChart.t('category'),
                     no: "category",
                     //required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -160,7 +127,7 @@ if(!is.null(xstats))
             },
 			counts: {
                 el: new dstVariable(config, {
-                    label: localization.en.counts,
+                    label: paretoChart.t('counts'),
                     no: "counts",
                     //required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -170,7 +137,7 @@ if(!is.null(xstats))
 			xlab: {
                 el: new input(config, {
                     no: 'xlab',
-                    label: localization.en.xlab,
+                    label: paretoChart.t('xlab'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -182,7 +149,7 @@ if(!is.null(xstats))
 			ylab: {
                 el: new input(config, {
                     no: 'ylab',
-                    label: localization.en.ylab,
+                    label: paretoChart.t('ylab'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -194,7 +161,7 @@ if(!is.null(xstats))
 			ylab2: {
                 el: new input(config, {
                     no: 'ylab2',
-                    label: localization.en.ylab2,
+                    label: paretoChart.t('ylab2'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -206,7 +173,7 @@ if(!is.null(xstats))
 			percentStep: {
                 el: new input(config, {
                     no: 'percentStep',
-                    label: localization.en.percentStep,
+                    label: paretoChart.t('percentStep'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -219,7 +186,7 @@ if(!is.null(xstats))
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: paretoChart.t('digits'),
                     required: true,
                     min: 0,
                     max: 9,
@@ -247,13 +214,22 @@ if(!is.null(xstats))
 					objects.percentStep.el.content,
 					objects.digits.el.content],
             nav: {
-                name: localization.en.navigation,
+                name: paretoChart.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: paretoChart.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: paretoChart.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new paretoChart().render()
+
+module.exports = {
+    render: () => new paretoChart().render()
+}

@@ -1,72 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Process Capability (does not handle missing values)",
-		navigation: "Process Capability, Basic",
-		
-		//chartTypeXbarChk: "xbar chart",
-		
-		summaryPlotChk: "Plot the underlying xbar and xbar.one charts used for computing the process capability",
-		displaySLlineonPlotChk: "Display LSL and USL lines on the underlying plots",
-		printObjectSummaryChk: "Print QCC object summary for the process capability",
-		
-		label1: "Two options - either select a variable (and a grouping variable as needed) or select the variables in dataset if already grouped",
-		
-		label2: "Advanced options",
-		
-		selectVariableRad: "Option 1: Select a variable from the dataset (optionally that may need to be grouped)",
-		variableSelcted: "Select a variable (observed data) to analyze",
-		groupingVariable: "Grouping variable (optional - if the data needs to be grouped)",
-		variableControlLimits: "Data rows to be discarded, if any, before grouping for variable control limits ( e.g. specify as 1:25 or 1,4,5,7:12)",
-		displayGroupsChk: "Display the groupings on the dataset UI grid for reference only",
-		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to analyze", 
-		
-		rowsTobeUsed: "If selected (grouped) rows to be used to analyze for process capability ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		nsigmas: "Sigma - number of sigmas to use for computing control limits",
-		confidence_level: "A numeric value between 0 and 1 specifying the level to use for computing confidence intervals",
-		stddev: "Standard deviation method for calculating xbar (for group size > 1)", 
-		//sdWarnLimits: "Add warning limits (e.g. 2) at the specific std. deviations (for xbar charts only)",
-		
-		lower: "LSL - numeric value of lower specification limit (type NA to specify one-sided specification limits)",
-		upper: "USL - numeric value of upper specification limit (type NA to specify one-sided specification limits)",
-		target: "Target specification limits (optional)",
-		digits: "Digits - number of digits to display",
-		
-		help: {
-            title: "Process Capability",
-            r_help: "help(process.capability, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				qcc function to to computes capability indices 
-				<br/>
-				<br/>
-				For the detail help - use R help(process.capability, package = qcc), help(qcc, package = qcc), help(sd.xbar, package = qcc), and help(sd.xbar.one, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
-				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, 
-				<br/>
-				Type 1:25 in Grouped rows to be used
-				<br/>
-				For Process capability analysis - type 73.95 in LSL, 74.05 in USL, and 74.0 in Target Limit
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-	
-	}
-}
+
 
 class processCapabilityQcc extends baseModal {
+    static dialogId = 'processCapabilityQcc'
+    static t = baseModal.makeT(processCapabilityQcc.dialogId)
+
     constructor() {
         var config = {
-            id: "processCapabilityLegacy",
-            label: localization.en.title,
+            id: processCapabilityQcc.dialogId,
+            label: processCapabilityQcc.t('title'),
             modalType: "two",
             RCode:`
 require(qcc)
@@ -328,21 +270,21 @@ require(qcc)
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) },
 			label1: { 
 				el: new labelVar(config, { 
-					label: localization.en.label1, 
+					label: processCapabilityQcc.t('label1'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: processCapabilityQcc.t('label2'), 
 					h: 4, 
 					style: "mb-2",
 				}) 
 			},
 			selectDatasetRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectDatasetRad,
+                    label: processCapabilityQcc.t('selectDatasetRad'),
                     no: "gpbox1",
                     increment: "selectDatasetRad",
                     value: "dataset",
@@ -353,7 +295,7 @@ require(qcc)
             },
 			variablelistSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variablelistSelcted,
+                    label: processCapabilityQcc.t('variablelistSelcted'),
                     no: "variablelistSelcted",
                     required: false,
                     filter: "Numeric|Scale",
@@ -363,7 +305,7 @@ require(qcc)
             },
 			selectVariableRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectVariableRad,
+                    label: processCapabilityQcc.t('selectVariableRad'),
                     no: "gpbox1",
                     increment: "selectVariableRad",
                     value: "variable",
@@ -373,7 +315,7 @@ require(qcc)
             },
 			variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableSelcted,
+                    label: processCapabilityQcc.t('variableSelcted'),
                     no: "variableSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -384,7 +326,7 @@ require(qcc)
             },
 			groupingNeededChk: {
                 el: new checkbox(config, {
-                    label: localization.en.groupingNeededChk, 
+                    label: processCapabilityQcc.t('groupingNeededChk'), 
 					no: "groupingNeededChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1, ml-3",
@@ -396,7 +338,7 @@ require(qcc)
             },
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: processCapabilityQcc.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -406,7 +348,7 @@ require(qcc)
             },
 			displayGroupsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.displayGroupsChk, 
+                    label: processCapabilityQcc.t('displayGroupsChk'), 
 					no: "displayGroupsChk",
                     bs_type: "valuebox",
                     style: "mt-2 ml-5 mb-2",
@@ -419,7 +361,7 @@ require(qcc)
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
-                    label: localization.en.variableControlLimits,
+                    label: processCapabilityQcc.t('variableControlLimits'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -432,7 +374,7 @@ require(qcc)
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: processCapabilityQcc.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -446,7 +388,7 @@ require(qcc)
 			nsigmas: {
                 el: new input(config, {
                     no: 'nsigmas',
-                    label: localization.en.nsigmas,
+                    label: processCapabilityQcc.t('nsigmas'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -459,7 +401,7 @@ require(qcc)
 			confidence_level: {
                 el: new input(config, {
                     no: 'confidence_level',
-                    label: localization.en.confidence_level,
+                    label: processCapabilityQcc.t('confidence_level'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -474,7 +416,7 @@ require(qcc)
 			lower: {
                 el: new input(config, {
                     no: 'lower',
-                    label: localization.en.lower,
+                    label: processCapabilityQcc.t('lower'),
                     placeholder: "",
                     required: true,
                     //type: "numeric",
@@ -488,7 +430,7 @@ require(qcc)
 			upper: {
                 el: new input(config, {
                     no: 'upper',
-                    label: localization.en.upper,
+                    label: processCapabilityQcc.t('upper'),
                     placeholder: "",
                     required: true,
                     //type: "numeric",
@@ -502,7 +444,7 @@ require(qcc)
 			target: {
                 el: new input(config, {
                     no: 'target',
-                    label: localization.en.target,
+                    label: processCapabilityQcc.t('target'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -517,7 +459,7 @@ require(qcc)
 			stddev: {
                 el: new selectVar(config, {
                     no: 'stddev',
-                    label: localization.en.stddev,
+                    label: processCapabilityQcc.t('stddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["RMSDF", "UWAVE-R", "UWAVE-SD", "MVLUE-R", "MVLUE-SD"],
@@ -528,7 +470,7 @@ require(qcc)
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: processCapabilityQcc.t('digits'),
                     required: true,
                     min: 0,
                     max: 15,
@@ -540,7 +482,7 @@ require(qcc)
             }, 
 			printObjectSummaryChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printObjectSummaryChk, 
+                    label: processCapabilityQcc.t('printObjectSummaryChk'), 
 					no: "printObjectSummaryChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -552,7 +494,7 @@ require(qcc)
             },
 			summaryPlotChk: { 
                 el: new checkbox(config, {
-                    label: localization.en.summaryPlotChk, 
+                    label: processCapabilityQcc.t('summaryPlotChk'), 
 					no: "summaryPlotChk",
                     bs_type: "valuebox",
                     style: "mt-2",
@@ -564,7 +506,7 @@ require(qcc)
             },
 			displaySLlineonPlotChk: { 
                 el: new checkbox(config, {
-                    label: localization.en.displaySLlineonPlotChk, 
+                    label: processCapabilityQcc.t('displaySLlineonPlotChk'), 
 					no: "displaySLlineonPlotChk",
                     bs_type: "valuebox",
                     style: "ml-3 mb-3",
@@ -605,13 +547,22 @@ require(qcc)
 					objects.printObjectSummaryChk.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: processCapabilityQcc.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: processCapabilityQcc.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: processCapabilityQcc.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new processCapabilityQcc().render()
+
+module.exports = {
+    render: () => new processCapabilityQcc().render()
+}

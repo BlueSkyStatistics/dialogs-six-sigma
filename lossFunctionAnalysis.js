@@ -1,39 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Loss Function Analysis",
-		navigation: "Loss Function Analysis",
-		lfaSubTitle: "Subtitle for the graphic output",
-		independent: "Column containing the data for the loss function analysis",
-		lfaDelta: "Tolerance of the process",
-		lfaY0: "Target of the process",
-		lfaL0: "Cost of poor quality at tolerance limit",
-		lfaSize: "Size of the production, batch, etc. to calculate the total loss in a group (span, batch, period, ...)",
-		lfaOutput: "Type of output (possible values - text, plot or both)",
-		
-		help: {
-            title: "Loss Function Analysis",
-            r_help: "help(ss.lfa, package = SixSigma)",
-			body: `
-				<b>Description</b></br>
-				ss.lfa function to perform a Quality Loss Function Analysis based in the Taguchi Loss Function for "Nominal-the-Best" characteristics.
-				<br/>
-				<br/>
-				For the detail help - use R help(ss.lfa, package = SixSigma)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset file called loss_function_table.xlsx. Open the file in the data grid with file open menu
-				<br/>
-			`
-		},
-	}
-}
+
 
 class lossFunctionAnalysis extends baseModal {
+    static dialogId = 'lossFunctionAnalysis'
+    static t = baseModal.makeT(lossFunctionAnalysis.dialogId)
+
     constructor() {
         var config = {
-            id: "lossFunctionAnalysis",
-            label: localization.en.title,
+            id: lossFunctionAnalysis.dialogId,
+            label: lossFunctionAnalysis.t('title'),
             modalType: "two",
             RCode: `
 				require(SixSigma)
@@ -56,7 +31,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaSubTitle: {
                 el: new input(config, {
                     no: 'lfaSubTitle',
-                    label: localization.en.lfaSubTitle,
+                    label: lossFunctionAnalysis.t('lfaSubTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -67,7 +42,7 @@ class lossFunctionAnalysis extends baseModal {
             },
 			independent: {
                 el: new dstVariable(config, {
-                    label: localization.en.independent,
+                    label: lossFunctionAnalysis.t('independent'),
                     no: "independent",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -77,7 +52,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaDelta: {
                 el: new input(config, {
                     no: 'lfaDelta',
-                    label: localization.en.lfaDelta,
+                    label: lossFunctionAnalysis.t('lfaDelta'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -89,7 +64,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaY0: {
                 el: new input(config, {
                     no: 'lfaY0',
-                    label: localization.en.lfaY0,
+                    label: lossFunctionAnalysis.t('lfaY0'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -101,7 +76,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaL0: {
                 el: new input(config, {
                     no: 'lfaL0',
-                    label: localization.en.lfaL0,
+                    label: lossFunctionAnalysis.t('lfaL0'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -113,7 +88,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaSize: {
                 el: new input(config, {
                     no: 'lfaSize',
-                    label: localization.en.lfaSize,
+                    label: lossFunctionAnalysis.t('lfaSize'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -125,7 +100,7 @@ class lossFunctionAnalysis extends baseModal {
 			lfaOutput: {
                 el: new selectVar(config, {
                     no: 'lfaOutput',
-                    label: localization.en.lfaOutput,
+                    label: lossFunctionAnalysis.t('lfaOutput'),
                     multiple: false,
                     required: true,
                     extraction: "NoPrefix|UseComma",
@@ -145,13 +120,22 @@ class lossFunctionAnalysis extends baseModal {
 					objects.lfaSize.el.content,
 					objects.lfaOutput.el.content],
             nav: {
-                name: localization.en.navigation,
+                name: lossFunctionAnalysis.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: lossFunctionAnalysis.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: lossFunctionAnalysis.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new lossFunctionAnalysis().render()
+
+module.exports = {
+    render: () => new lossFunctionAnalysis().render()
+}

@@ -1,38 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Multi-Vari Chart",
-		navigation: "Multi-Vari Chart",
-		
-		Y_variableRespSelcted: "Select the variable (numerical) for measurement/response (Y-axis)",
-		X_variableSelcted: "Select the categorical variable (X-axis)",
-		G_variableSelcted: "Select the grouping (categorical) variable ",
-		printStatChk: "Print stats in addition to charts",
-		pctMeanRangeAsYoffset: "Vertical offset to place the labels for the mean points on the plot",
-		pctMeanRangeAsXoffset: "Horizontal offset to place the labels for the mean points on the plot",
-		angleXaxis_text: "Angle to slant x-axis text values (default 0 for no slanting)",
-		
-		
-		help: {
-            title: "Multi-Vari Chart",
-            //r_help: "help(lm, package = stats)",
-			body: `
-				<b>Description</b></br>
-				A multi-vari chart of one quantitative response variable depending on two categorical variables
-				<br/>
-				<br/>
-				Mean values of the response variable is also plotted on the chart 
-				<br/>
-			`
-		},
-	}
-}
+
 
 class MultiVariChart extends baseModal {
+    static dialogId = 'MultiVariChart'
+    static t = baseModal.makeT(MultiVariChart.dialogId)
+
     constructor() {
         var config = {
-            id: "MultiVariChart",
-            label: localization.en.title,
+            id: MultiVariChart.dialogId,
+            label: MultiVariChart.t('title'),
             modalType: "two",
             RCode:`
 
@@ -151,7 +127,7 @@ rm({{dataset.name}}_tmp)
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) }, 
 			Y_variableRespSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.Y_variableRespSelcted,
+                    label: MultiVariChart.t('Y_variableRespSelcted'),
                     no: "Y_variableRespSelcted",
                     required: true,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -162,7 +138,7 @@ rm({{dataset.name}}_tmp)
             },
 			X_variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.X_variableSelcted,
+                    label: MultiVariChart.t('X_variableSelcted'),
                     no: "X_variableSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -173,7 +149,7 @@ rm({{dataset.name}}_tmp)
             },
 			G_variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.G_variableSelcted,
+                    label: MultiVariChart.t('G_variableSelcted'),
                     no: "G_variableSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -184,7 +160,7 @@ rm({{dataset.name}}_tmp)
             },
 			printStatChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printStatChk, 
+                    label: MultiVariChart.t('printStatChk'), 
 					no: "printStatChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -198,7 +174,7 @@ rm({{dataset.name}}_tmp)
 			pctMeanRangeAsYoffset: {
 			el: new inputSpinner(config, {
 			  no: 'pctMeanRangeAsYoffset',
-			  label: localization.en.pctMeanRangeAsYoffset,
+			  label: MultiVariChart.t('pctMeanRangeAsYoffset'),
 			  min: 0.01,
 			  max: 2,
 			  step: 0.01,
@@ -210,7 +186,7 @@ rm({{dataset.name}}_tmp)
 		  pctMeanRangeAsXoffset: {
 			el: new inputSpinner(config, {
 			  no: 'pctMeanRangeAsXoffset',
-			  label: localization.en.pctMeanRangeAsXoffset,
+			  label: MultiVariChart.t('pctMeanRangeAsXoffset'),
 			  min: -2.5,
 			  max: 3.5,
 			  step: 0.5,
@@ -222,7 +198,7 @@ rm({{dataset.name}}_tmp)
 		  angleXaxis_text: {
                 el: new inputSpinner(config, {
 					no: 'angleXaxis_text',
-                    label: localization.en.angleXaxis_text,
+                    label: MultiVariChart.t('angleXaxis_text'),
 					required: true,
                     min: 0,
                     max: 360,
@@ -245,13 +221,22 @@ rm({{dataset.name}}_tmp)
 					objects.angleXaxis_text.el.content,
 					],
             nav: {
-                name: localization.en.navigation,
+                name: MultiVariChart.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: MultiVariChart.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: MultiVariChart.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new MultiVariChart().render()
+
+module.exports = {
+    render: () => new MultiVariChart().render()
+}

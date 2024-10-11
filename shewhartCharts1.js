@@ -1,123 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Shewhart charts (xbar, R, S)",
-		navigation: "Shewhart charts (xbar, R, S), Basic",
-		
-		//chart_type = c("xbar", "R", "S", "p", "np", "c", "u", "xbar.one")
-		chartTypeXbarChk: "xbar chart",
-		chartTypeRChk: "R chart",
-		chartTypeSChk: "S chart",
-		
-		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
-		
-		selectVariableRad: "Option 1: Select a variable from the dataset that needs to be grouped",
-		variableSelcted: "Variable (observed data) to chart",
-		groupingNeededChk: "Required for xbar, R and S charts - Variable to use for grouping data",
-		groupingVariable: "Grouping Variable",
-		variableControlLimits: "Rows to be discarded if any before grouping for variable control limits (i.e. variable sample sizes)  e.g. specify as 1:25 or 1,4,5,7:12",
-		displayGroupsChk: "Display the groupings on the dataset UI grid",
-		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to chart", 
-		
-		printStatChk: "Print stats in addition to charts",
-		printObjectSummaryChk: "Print QCC object summary",
-		printTestSummaryChk: "Print summary from the tests for special causes",
-		printTestDetailChk: "Print details from the tests for special causes",
-		markTestNumberChk: "Mark Test Number on the chart (only the first test number will be marked if more than one tests found to be violated by a data point)",
-		
-		ocCurvesChk: "Plot operating characteristic curves where applicable (must have equal sample sizes)",
-		
-		rowsTobeUsed: "Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedAsNewData: "New Data - grouped Rows to be used as New Data to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the computations",
-		
-		additionalPhasesLabel: "Specify data to Chart additional phases (limited to max of 10 phases to be practical to plot on a single chart)",
-		rowsTobeUsedPhase2: "Phase 2 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase3: "Phase 3 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase4: "Phase 4 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase5: "Phase 5 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase6: "Phase 6 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase7: "Phase 7 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase8: "Phase 8 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase9: "Phase 9 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedPhase10: "Phase 10 Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		phaseNames: "Specify phase names (comma separated) for a multi-phase chart - default phase names are Phase 1, Phase 2, ...",
-		
-		nsigmas: "Sigma - number of sigmas to use for computing control limits. It is ignored when the confidence.level argument is provided",
-		confidence_level: "Confidence Level - value between 0 and 1 specifying the confidence level of the computed probability limits",
-		sdWarnLimits: "Add additional limit lines (comma separated) on the plot at the specific std. deviations (e.g. 1.5, 2)",
-		
-		digits: "Digits - number of digits to display",
-		
-		xbarStddev: "Xbar chart - Standard deviation method to be used",
-		RStddev: "R chart - Standard deviation method to be used",
-		SStddev: "S chart - Standard deviation method to be used",
-		
-		processCapabilityChk: "Process capability analysis (with xbar chart)",
-		lower: "LSL - numeric value of lower specification limit to plot a LSL line",
-		upper: "USL - numeric value of upper specification limit to plot a USL line",
-		target: "Target specification limits",
-		
-		performTestLabel: "Perform selected tests for special causes",
-		
-		test1Chk: "Perform test 1",
-		test2Chk: "Perform test 2",
-		test3Chk: "Perform test 3",
-		test4Chk: "Perform test 4",
-		test5Chk: "Perform test 5",
-		test6Chk: "Perform test 6",
-		test7Chk: "Perform test 7",
-		test8Chk: "Perform test 8",
-		
-		test1: "One point more than Kσ from center line (default 3)",
-		test2: "K points in a row on the same side of the center line (defualt 9)",
-		test3: "K points in a row, all increasing or all decreasing (default 6)",
-		test4: "K points in a row, alternating up and down (defult 14)",
-		test5: "K out of K+1 points more than 2σ from the center line same side (defualt 2 out of 2+1)",
-		test6: "K out of K+1 points more than 1σ from center line same side (default 4 out of 4+1)",
-		test7: "K points in a row within 1σ of center line either side (default 15)",
-		test8: "K points in a row more than 1σ from center line either side (defualt 8)",
-		
-		
-		help: {
-            title: "Shewhart charts (xbar, R, S)",
-            r_help: "help(qcc, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				qcc function to to perform statistical quality control and to plot Shewhart charts, drawing OC curves, computes capability indices
-				<br/>
-				<br/>
-				For the detail help - use R help(qcc, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
-				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, click run
-				<br/>
-				Additionally, type 1:20 in Grouped rows to be used, click run 
-				<br/>
-				To plot a chart with multple phase
-				<br/>
-				Type 25:30 in Phase 2 Grouped rows
-				<br/>
-				Type 31:38 in Phase 3 Grouped rows
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-	
-		
-	}
-}
+
 
 class shewhartCharts1 extends baseModal {
+    static dialogId = 'shewhartCharts1'
+    static t = baseModal.makeT(shewhartCharts1.dialogId)
+
     constructor() {
         var config = {
-            id: "shewhartCharts1",
-            label: localization.en.title,
+            id: shewhartCharts1.dialogId,
+            label: shewhartCharts1.t('title'),
             modalType: "two",
             RCode:`
 require(qcc)
@@ -352,7 +243,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) }, 
 			chartTypeXbarChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeXbarChk, 
+                    label: shewhartCharts1.t('chartTypeXbarChk'), 
 					no: "chartTypeXbarChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -365,7 +256,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			chartTypeRChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeRChk, 
+                    label: shewhartCharts1.t('chartTypeRChk'), 
 					no: "chartTypeRChk",
                     bs_type: "valuebox",
                     style: "mb-1",
@@ -377,7 +268,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			chartTypeSChk: {
                 el: new checkbox(config, {
-                    label: localization.en.chartTypeSChk, 
+                    label: shewhartCharts1.t('chartTypeSChk'), 
 					no: "chartTypeSChk",
                     bs_type: "valuebox",
                     style: "mb-2",
@@ -389,14 +280,14 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: shewhartCharts1.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			selectDatasetRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectDatasetRad,
+                    label: shewhartCharts1.t('selectDatasetRad'),
                     no: "gpbox1",
                     increment: "selectDatasetRad",
                     value: "dataset",
@@ -407,7 +298,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			variablelistSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variablelistSelcted,
+                    label: shewhartCharts1.t('variablelistSelcted'),
                     no: "variablelistSelcted",
                     required: false,
                     filter: "Numeric|Scale",
@@ -417,7 +308,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			selectVariableRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectVariableRad,
+                    label: shewhartCharts1.t('selectVariableRad'),
                     no: "gpbox1",
                     increment: "selectVariableRad",
                     value: "variable",
@@ -427,7 +318,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableSelcted,
+                    label: shewhartCharts1.t('variableSelcted'),
                     no: "variableSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -438,7 +329,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			groupingNeededChk: {
                 el: new checkbox(config, {
-                    label: localization.en.groupingNeededChk, 
+                    label: shewhartCharts1.t('groupingNeededChk'), 
 					no: "groupingNeededChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1, ml-3",
@@ -450,7 +341,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: shewhartCharts1.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -460,7 +351,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			displayGroupsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.displayGroupsChk, 
+                    label: shewhartCharts1.t('displayGroupsChk'), 
 					no: "displayGroupsChk",
                     bs_type: "valuebox",
                     style: "mt-2 ml-5 mb-2",
@@ -473,7 +364,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
-                    label: localization.en.variableControlLimits,
+                    label: shewhartCharts1.t('variableControlLimits'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -486,7 +377,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			printStatChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printStatChk, 
+                    label: shewhartCharts1.t('printStatChk'), 
 					no: "printStatChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -499,7 +390,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			printObjectSummaryChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printObjectSummaryChk, 
+                    label: shewhartCharts1.t('printObjectSummaryChk'), 
 					no: "printObjectSummaryChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -512,7 +403,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			printTestSummaryChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printTestSummaryChk, 
+                    label: shewhartCharts1.t('printTestSummaryChk'), 
 					no: "printTestSummaryChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -525,7 +416,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			printTestDetailChk: {
                 el: new checkbox(config, {
-                    label: localization.en.printTestDetailChk, 
+                    label: shewhartCharts1.t('printTestDetailChk'), 
 					no: "printTestDetailChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -537,7 +428,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			markTestNumberChk: {
                 el: new checkbox(config, {
-                    label: localization.en.markTestNumberChk, 
+                    label: shewhartCharts1.t('markTestNumberChk'), 
 					no: "markTestNumberChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -550,7 +441,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			ocCurvesChk: {
                 el: new checkbox(config, {
-                    label: localization.en.ocCurvesChk, 
+                    label: shewhartCharts1.t('ocCurvesChk'), 
 					no: "ocCurvesChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -564,7 +455,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: shewhartCharts1.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -579,7 +470,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedAsNewData: {
                 el: new input(config, {
                     no: 'rowsTobeUsedAsNewData',
-                    label: localization.en.rowsTobeUsedAsNewData,
+                    label: shewhartCharts1.t('rowsTobeUsedAsNewData'),
                     placeholder: "",
                     required: false,
 					filter: "character|numeric",
@@ -592,7 +483,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			additionalPhasesLabel: { 
 				el: new labelVar(config, { 
-					label: localization.en.additionalPhasesLabel, 
+					label: shewhartCharts1.t('additionalPhasesLabel'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
@@ -600,7 +491,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			phaseNames: {
                 el: new input(config, {
                     no: 'phaseNames',
-                    label: localization.en.phaseNames,
+                    label: shewhartCharts1.t('phaseNames'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -613,7 +504,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase2: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase2',
-                    label: localization.en.rowsTobeUsedPhase2,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase2'),
                     placeholder: "",
                     required: false,
 					filter: "character|numeric",
@@ -628,7 +519,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase3: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase3',
-                    label: localization.en.rowsTobeUsedPhase3,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase3'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -643,7 +534,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase4: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase4',
-                    label: localization.en.rowsTobeUsedPhase4,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase4'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -658,7 +549,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase5: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase5',
-                    label: localization.en.rowsTobeUsedPhase5,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase5'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -673,7 +564,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase6: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase6',
-                    label: localization.en.rowsTobeUsedPhase6,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase6'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -688,7 +579,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase7: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase7',
-                    label: localization.en.rowsTobeUsedPhase7,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase7'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -703,7 +594,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase8: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase8',
-                    label: localization.en.rowsTobeUsedPhase8,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase8'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -718,7 +609,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase9: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase9',
-                    label: localization.en.rowsTobeUsedPhase9,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase9'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -733,7 +624,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			rowsTobeUsedPhase10: {
                 el: new input(config, {
                     no: 'rowsTobeUsedPhase10',
-                    label: localization.en.rowsTobeUsedPhase10,
+                    label: shewhartCharts1.t('rowsTobeUsedPhase10'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -748,7 +639,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			nsigmas: {
                 el: new input(config, {
                     no: 'nsigmas',
-                    label: localization.en.nsigmas,
+                    label: shewhartCharts1.t('nsigmas'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -761,7 +652,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			confidence_level: {
                 el: new input(config, {
                     no: 'confidence_level',
-                    label: localization.en.confidence_level,
+                    label: shewhartCharts1.t('confidence_level'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -775,7 +666,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			sdWarnLimits: {
                 el: new input(config, {
                     no: 'sdWarnLimits',
-                    label: localization.en.sdWarnLimits,
+                    label: shewhartCharts1.t('sdWarnLimits'),
                     placeholder: "",
                     required: false,
                     filter: "character|numeric",
@@ -789,7 +680,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: shewhartCharts1.t('digits'),
                     required: true,
                     min: 0,
                     max: 15,
@@ -802,7 +693,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			xbarStddev: {
                 el: new selectVar(config, {
                     no: 'xbarStddev',
-                    label: localization.en.xbarStddev,
+                    label: shewhartCharts1.t('xbarStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["UWAVE-SD", "RMSDF", "UWAVE-R",  "MVLUE-R", "MVLUE-SD"],
@@ -814,7 +705,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			RStddev: {
                 el: new selectVar(config, {
                     no: 'RStddev',
-                    label: localization.en.RStddev,
+                    label: shewhartCharts1.t('RStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["UWAVE-R", "MVLUE-R"],
@@ -826,7 +717,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			SStddev: {
                 el: new selectVar(config, {
                     no: 'SStddev',
-                    label: localization.en.SStddev,
+                    label: shewhartCharts1.t('SStddev'),
                     multiple: false,
                     extraction: "NoPrefix|UseComma",
                     options: ["UWAVE-SD", "MVLUE-SD", "RMSDF"],
@@ -837,7 +728,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			processCapabilityChk: {
                 el: new checkbox(config, {
-                    label: localization.en.processCapabilityChk, 
+                    label: shewhartCharts1.t('processCapabilityChk'), 
 					no: "processCapabilityChk",
                     bs_type: "valuebox",
                     style: "mb-1",
@@ -850,7 +741,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			lower: {
                 el: new input(config, {
                     no: 'lower',
-                    label: localization.en.lower,
+                    label: shewhartCharts1.t('lower'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -864,7 +755,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			upper: {
                 el: new input(config, {
                     no: 'upper',
-                    label: localization.en.upper,
+                    label: shewhartCharts1.t('upper'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -878,7 +769,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			target: {
                 el: new input(config, {
                     no: 'target',
-                    label: localization.en.target,
+                    label: shewhartCharts1.t('target'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -892,14 +783,14 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			performTestLabel: { 
 				el: new labelVar(config, { 
-					label: localization.en.performTestLabel, 
+					label: shewhartCharts1.t('performTestLabel'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			test1Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test1Chk, 
+                    label: shewhartCharts1.t('test1Chk'), 
 					no: "test1Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -912,7 +803,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test2Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test2Chk, 
+                    label: shewhartCharts1.t('test2Chk'), 
 					no: "test2Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -925,7 +816,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test3Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test3Chk, 
+                    label: shewhartCharts1.t('test3Chk'), 
 					no: "test3Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -937,7 +828,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test4Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test4Chk, 
+                    label: shewhartCharts1.t('test4Chk'), 
 					no: "test4Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -949,7 +840,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test5Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test5Chk, 
+                    label: shewhartCharts1.t('test5Chk'), 
 					no: "test5Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -961,7 +852,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test6Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test6Chk, 
+                    label: shewhartCharts1.t('test6Chk'), 
 					no: "test6Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -973,7 +864,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test7Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test7Chk, 
+                    label: shewhartCharts1.t('test7Chk'), 
 					no: "test7Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -985,7 +876,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
             },
 			test8Chk: {
                 el: new checkbox(config, {
-                    label: localization.en.test8Chk, 
+                    label: shewhartCharts1.t('test8Chk'), 
 					no: "test8Chk",
                     bs_type: "valuebox",
                     //style: "mb-1",
@@ -998,7 +889,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test1: {
                 el: new input(config, {
                     no: 'test1',
-                    label: localization.en.test1,
+                    label: shewhartCharts1.t('test1'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1012,7 +903,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test2: {
                 el: new input(config, {
                     no: 'test2',
-                    label: localization.en.test2,
+                    label: shewhartCharts1.t('test2'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1026,7 +917,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test3: {
                 el: new input(config, {
                     no: 'test3',
-                    label: localization.en.test3,
+                    label: shewhartCharts1.t('test3'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1040,7 +931,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test4: {
                 el: new input(config, {
                     no: 'test4',
-                    label: localization.en.test4,
+                    label: shewhartCharts1.t('test4'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1054,7 +945,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test5: {
                 el: new input(config, {
                     no: 'test5',
-                    label: localization.en.test5,
+                    label: shewhartCharts1.t('test5'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1068,7 +959,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test6: {
                 el: new input(config, {
                     no: 'test6',
-                    label: localization.en.test6,
+                    label: shewhartCharts1.t('test6'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1082,7 +973,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test7: {
                 el: new input(config, {
                     no: 'test7',
-                    label: localization.en.test7,
+                    label: shewhartCharts1.t('test7'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1096,7 +987,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 			test8: {
                 el: new input(config, {
                     no: 'test8',
-                    label: localization.en.test8,
+                    label: shewhartCharts1.t('test8'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -1185,13 +1076,22 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
 					objects.test8.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: shewhartCharts1.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: shewhartCharts1.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: shewhartCharts1.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new shewhartCharts1().render()
+
+module.exports = {
+    render: () => new shewhartCharts1().render()
+}

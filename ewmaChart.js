@@ -1,65 +1,14 @@
 
-var localization = {
-    en: {
-        title: "EWMA chart",
-		navigation: "EWMA chart",
-		
-		summaryPrintChk: "Print summary in addition to charts",
-		//ocCurvesChk: "Plot operating characteristic curves where applicable",
-		
-		label2: "Two options - either select a variable to chart (and a grouping variable as needed) or select the variables in dataset to chart if already grouped",
-		
-		selectVariableRad: "Option 1: Select a variable from the dataset that needs to be grouped",
-		variableSelcted: "Variable(observed data) to chart",
-		//groupingNeededChk: "Required for xbar, R and S charts - Variable to use for grouping data",
-		groupingVariable: "Grouping Variable",
-		//variableControlLimits: "Rows to be discarded if any before grouping for variable control limits e.g. specify as 1:25 or 1,4,5,7:12",
-		displayGroupsChk: "Display the groupings on the dataset UI grid",
-		
-		selectDatasetRad: "Option 2: Select the variables from the Dataset if already grouped",
-		variablelistSelcted: "Select one or more grouped variables (observed data) to chart", 
-		
-		nsigmas: "Sigma - number of sigmas to use for computing control limits",
-		lambda: "The smoothing parameter (between 0 and 1)", 
-		
-		rowsTobeUsed: "Grouped Rows to be used to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12)",
-		rowsTobeUsedAsNewData: "New Data - grouped Rows to be used as New Data to Chart ( e.g.  specify as 1:25 or 1,4,5,7:12) - new data to plot but not included in the computations",
-		
-		//nsigmas: "Sigma - number of sigmas to use for computing control limits. It is ignored when the confidence.level argument is provided",
-		//confidence_level: "Confidence Level - value between 0 and 1 specifying the confidence level of the computed probability limits",
-		//sdWarnLimits: "Add warning limits (e.g. 2) at the specific std. deviations (for xbar charts only)",
-		
-		help: {
-            title: "EWMA chart",
-            r_help: "help(ewma, package = qcc)",
-			body: `
-				<b>Description</b></br>
-				qcc function to to perform statistical quality control and to plot Shewhart charts
-				<br/>
-				<br/>
-				For the detail help - use R help(ewma, package = qcc) and help(qcc, package = qcc)
-				<br/>
-				<br/>
-				To try this, you may load the dataset called pistonrings from the qcc package with Load Dataset menu by selecting qcc package and then select pistonrings dataset
-				<br/>
-				Choose option 1, diameter to variable(observed..), sample to Grouping variable, 
-				<br/>
-				Type 1:25 in Grouped rows to be used, 30:40 in New Data
-				<br/>
-				<br/>
-				Follow the qcc tutorial at https://cran.r-project.org/web/packages/qcc/vignettes/qcc_a_quick_tour.html
-				<br/>
-			`
-		},
-		
-	}
-}
+
 
 class ewmaChart extends baseModal {
+    static dialogId = 'ewmaChart'
+    static t = baseModal.makeT(ewmaChart.dialogId)
+
     constructor() {
         var config = {
-            id: "ewmaChart",
-            label: localization.en.title,
+            id: ewmaChart.dialogId,
+            label: ewmaChart.t('title'),
             modalType: "two",
             RCode:`
 require(qcc)
@@ -151,7 +100,7 @@ selectedData = NULL
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) },
 			summaryPrintChk: {
                 el: new checkbox(config, {
-                    label: localization.en.summaryPrintChk, 
+                    label: ewmaChart.t('summaryPrintChk'), 
 					no: "summaryPrintChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-3",
@@ -163,14 +112,14 @@ selectedData = NULL
             },
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: ewmaChart.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
 			},
 			selectDatasetRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectDatasetRad,
+                    label: ewmaChart.t('selectDatasetRad'),
                     no: "gpbox1",
                     increment: "selectDatasetRad",
                     value: "dataset",
@@ -181,7 +130,7 @@ selectedData = NULL
             },
 			variablelistSelcted: {
                 el: new dstVariableList(config, {
-                    label: localization.en.variablelistSelcted,
+                    label: ewmaChart.t('variablelistSelcted'),
                     no: "variablelistSelcted",
                     required: false,
                     filter: "Numeric|Scale",
@@ -191,7 +140,7 @@ selectedData = NULL
             },
 			selectVariableRad: {
                 el: new radioButton(config, {
-                    label: localization.en.selectVariableRad,
+                    label: ewmaChart.t('selectVariableRad'),
                     no: "gpbox1",
                     increment: "selectVariableRad",
                     value: "variable",
@@ -201,7 +150,7 @@ selectedData = NULL
             },
 			variableSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableSelcted,
+                    label: ewmaChart.t('variableSelcted'),
                     no: "variableSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -213,7 +162,7 @@ selectedData = NULL
 			/*
 			groupingNeededChk: {
                 el: new checkbox(config, {
-                    label: localization.en.groupingNeededChk, 
+                    label: ewmaChart.t('groupingNeededChk'), 
 					no: "groupingNeededChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1, ml-3",
@@ -226,7 +175,7 @@ selectedData = NULL
 			*/
 			groupingVariable: {
                 el: new dstVariable(config, {
-                    label: localization.en.groupingVariable,
+                    label: ewmaChart.t('groupingVariable'),
                     no: "groupingVariable",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -236,7 +185,7 @@ selectedData = NULL
             },
 			displayGroupsChk: {
                 el: new checkbox(config, {
-                    label: localization.en.displayGroupsChk, 
+                    label: ewmaChart.t('displayGroupsChk'), 
 					no: "displayGroupsChk",
                     bs_type: "valuebox",
                     style: "mt-2 ml-5 mb-2",
@@ -250,7 +199,7 @@ selectedData = NULL
 			variableControlLimits: {
                 el: new input(config, {
                     no: 'variableControlLimits',
-                    label: localization.en.variableControlLimits,
+                    label: ewmaChart.t('variableControlLimits'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -264,7 +213,7 @@ selectedData = NULL
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: ewmaChart.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -278,7 +227,7 @@ selectedData = NULL
 			rowsTobeUsedAsNewData: {
                 el: new input(config, {
                     no: 'rowsTobeUsedAsNewData',
-                    label: localization.en.rowsTobeUsedAsNewData,
+                    label: ewmaChart.t('rowsTobeUsedAsNewData'),
                     placeholder: "",
                     required: false,
                     type: "character",
@@ -291,7 +240,7 @@ selectedData = NULL
 			nsigmas: {
                 el: new input(config, {
                     no: 'nsigmas',
-                    label: localization.en.nsigmas,
+                    label: ewmaChart.t('nsigmas'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -304,7 +253,7 @@ selectedData = NULL
 			lambda: {
                 el: new input(config, {
                     no: 'lambda',
-                    label: localization.en.lambda,
+                    label: ewmaChart.t('lambda'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -338,13 +287,22 @@ selectedData = NULL
 					objects.rowsTobeUsedAsNewData.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: ewmaChart.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: ewmaChart.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: ewmaChart.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new ewmaChart().render()
+
+module.exports = {
+    render: () => new ewmaChart().render()
+}

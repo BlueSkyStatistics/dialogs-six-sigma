@@ -1,56 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Attribute Agreement Analysis, Basic",
-		navigation: "Attribute Agreement, Basic",
-		
-		//label2: "Two options - either select a non-normal variable to transform to normal if not grouped or select the entire dataset to transform if already grouped",
-		//selectVariableRad: "Option 1: Select a non-normal variable from the dataset to be transformed to normal",
-		
-		variablePartSelcted: "Select the variable for sample/part",
-		variableOpSelcted: "Select the variable for appraiser/operator",
-		variableRespSelcted: "Select the variable for attribute/response",
-		variableRefSelcted: "(Optional) Select the variable for reference/standard response",
-		
-		alpha: "Confidence interval (alpha) between 0 to 1",
-		
-		rowsTobeUsed: "Leave blank if all the rows to be used. Otherwise specify the Rows to be used to analyze (e.g.  specify as 1:25 or 1,4,5,7:12)",
-		
-		//boxcoxChk: "Box-Cox transformation",
-		//johnsonChk: "Johnson transformation",
-		//digits: "Digits - rounds to the specified number of decimal places",
-		
-		help: {
-            title: "Attribute agreement analysis",
-            r_help: "help(kappam.fleiss, package = irr)",
-			body: `
-				<b>Description</b></br>
-				Function to perform attribute agreement analysis
-				<br/>
-				<br/>
-				For the detail help - use R help(kappam.fleiss, package = irr)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset files attributemsaAB.xlsx for 
-				two Operators, A and B, each with 20 observations repated twice with P and F ratings.
-				<br/>
-				<br/>
-				You may also try the sample dataset file attributemsaABCordered.RData with three operators, A, B, C, each with 10 obsevations repeated twice with "ordered" (ordinal) 
-				ratings as Disagree, Somewhat Disagree, Neutral, Somewhat Agree, and Agree. 
-				<br/>
-				<br/>
-				Open the files in the data grid with file open menu
-				<br/>
-			`
-		},
-	}
-}
+
 
 class attributeAgreement extends baseModal {
+    static dialogId = 'attributeAgreement'
+    static t = baseModal.makeT(attributeAgreement.dialogId)
+
     constructor() {
         var config = {
-            id: "attributeAgreement",
-            label: localization.en.title,
+            id: attributeAgreement.dialogId,
+            label: attributeAgreement.t('title'),
             modalType: "two",
             RCode:`
 require(irr)  
@@ -561,7 +519,7 @@ if(!is.null(plot_mat))
 			/*
 			boxcoxChk: {
                 el: new checkbox(config, {
-                    label: localization.en.boxcoxChk, 
+                    label: attributeAgreement.t('boxcoxChk'), 
 					no: "boxcoxChk",
                     bs_type: "valuebox",
                     //style: "mt-2 mb-1",
@@ -574,7 +532,7 @@ if(!is.null(plot_mat))
             },
 			johnsonChk: {
                 el: new checkbox(config, {
-                    label: localization.en.johnsonChk, 
+                    label: attributeAgreement.t('johnsonChk'), 
 					no: "johnsonChk",
                     bs_type: "valuebox",
                     style: "mb-2",
@@ -587,7 +545,7 @@ if(!is.null(plot_mat))
 			digits: {
                 el: new inputSpinner(config, {
                     no: 'digits',
-                    label: localization.en.digits,
+                    label: attributeAgreement.t('digits'),
                     required: true,
                     min: 0,
                     max: 15,
@@ -599,7 +557,7 @@ if(!is.null(plot_mat))
             },     
 			label2: { 
 				el: new labelVar(config, { 
-					label: localization.en.label2, 
+					label: attributeAgreement.t('label2'), 
 					h: 6, 
 					style: "mb-2",
 				}) 
@@ -608,7 +566,7 @@ if(!is.null(plot_mat))
 		
 			variablePartSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variablePartSelcted,
+                    label: attributeAgreement.t('variablePartSelcted'),
                     no: "variablePartSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -619,7 +577,7 @@ if(!is.null(plot_mat))
             },
 			variableOpSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableOpSelcted,
+                    label: attributeAgreement.t('variableOpSelcted'),
                     no: "variableOpSelcted",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -630,7 +588,7 @@ if(!is.null(plot_mat))
             },
 			variableRespSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableRespSelcted,
+                    label: attributeAgreement.t('variableRespSelcted'),
                     no: "variableRespSelcted",
                     required: true,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -641,7 +599,7 @@ if(!is.null(plot_mat))
             },
 			variableRefSelcted: {
                 el: new dstVariable(config, {
-                    label: localization.en.variableRefSelcted,
+                    label: attributeAgreement.t('variableRefSelcted'),
                     no: "variableRefSelcted",
                     required: false,
                     //filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -653,7 +611,7 @@ if(!is.null(plot_mat))
 			alpha: {
                 el: new input(config, {
                     no: 'alpha',
-                    label: localization.en.alpha,
+                    label: attributeAgreement.t('alpha'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -667,7 +625,7 @@ if(!is.null(plot_mat))
 			rowsTobeUsed: {
                 el: new input(config, {
                     no: 'rowsTobeUsed',
-                    label: localization.en.rowsTobeUsed,
+                    label: attributeAgreement.t('rowsTobeUsed'),
                     placeholder: "",
                     required: false,
                     //type: "character",
@@ -699,13 +657,22 @@ if(!is.null(plot_mat))
 					//objects.digits.el.content
 					],
             nav: {
-                name: localization.en.navigation,
+                name: attributeAgreement.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: attributeAgreement.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: attributeAgreement.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new attributeAgreement().render()
+
+module.exports = {
+    render: () => new attributeAgreement().render()
+}

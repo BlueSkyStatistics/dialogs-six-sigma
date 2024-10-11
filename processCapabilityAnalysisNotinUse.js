@@ -1,52 +1,14 @@
 
-var localization = {
-    en: {
-        title: "Process Capability Analysis",
-		navigation: "Process Capability (SixSigma package)",
-		
-		measuredVar: "Variable with the data of the process performance",
-		lsl: "LSL - numeric value of lower specification limit",
-		usl: "USL - numeric value of upper specification limit",
-		ciChk: "Compute a Confidence Interval",
-		alphaLim: "Alpha - Type I error (α) for the Confidence Interval",
-		
-		capabilityStudyChk: "Show graphs and figures for the Process Capability Study",
-		target: "Target of the process",
-		futureProcessVar: "Variable with the data of the long term process performance",
-		mainTitle: "Main title for the graphic output",
-		subTitle: "Subtitle for the graphic output (e.g. the name of the Six Sigma project)",
-		
-		ciMeanChk: "Plot Confidence Interval for the mean",
-		sigma2: "The population variance, if known",
-		ciMeanMainTitle: "Main title for the Confidence Interval for the mean graphic output",
-		ciMeanSubTitle: "Subtitle for the graphic output (e.g. the name of the Six Sigma project)",
-		
-		help: {
-            title: "Process Capability Analysis",
-            r_help: "help(ss.ca.cp, package = SixSigma)",
-			body: `
-				<b>Description</b></br>
-				ss.ca.cp function to compute the Capability Indices of a process, Z (Sigma Score), C_p and C_{pk}.
-				<br/>
-				<br/>
-				For the detail help - use R help(ss.ca.cp, package = SixSigma)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset file called process_capability_study_table.xlsx. Open the file in the data grid with file open menu
-				<br/>
-				from the sample dataset, select widgets variable, type 745 in LSL, 760 in USL, 755 in Target 
-				<br/>
-			`
-		},
-		
-	}
-}
+
 
 class processCapabilityAnalysis extends baseModal {
+    static dialogId = 'processCapabilityAnalysis'
+    static t = baseModal.makeT(processCapabilityAnalysis.dialogId)
+
     constructor() {
         var config = {
-            id: "processCapabilityAnalysis",
-            label: localization.en.title,
+            id: processCapabilityAnalysis.dialogId,
+            label: processCapabilityAnalysis.t('title'),
             modalType: "two",
             RCode: `
 require(SixSigma)
@@ -141,7 +103,7 @@ require(SixSigma)
             content_var: { el: new srcVariableList(config, {action: "move", scroll:true}) },
 			measuredVar: {
                 el: new dstVariable(config, {
-                    label: localization.en.measuredVar,
+                    label: processCapabilityAnalysis.t('measuredVar'),
                     no: "measuredVar",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -151,7 +113,7 @@ require(SixSigma)
 			lsl: {
                 el: new input(config, {
                     no: 'lsl',
-                    label: localization.en.lsl,
+                    label: processCapabilityAnalysis.t('lsl'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -163,7 +125,7 @@ require(SixSigma)
 			usl: {
                 el: new input(config, {
                     no: 'usl',
-                    label: localization.en.usl,
+                    label: processCapabilityAnalysis.t('usl'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -174,7 +136,7 @@ require(SixSigma)
             },
 			ciChk: {
                 el: new checkbox(config, {
-                    label: localization.en.ciChk, 
+                    label: processCapabilityAnalysis.t('ciChk'), 
 					no: "ciChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -187,7 +149,7 @@ require(SixSigma)
 			alphaLim: {
                 el: new input(config, {
                     no: 'alphaLim',
-                    label: localization.en.alphaLim,
+                    label: processCapabilityAnalysis.t('alphaLim'),
                     placeholder: "",
                     required: true,
                     type: "numeric",
@@ -199,7 +161,7 @@ require(SixSigma)
             },
 			capabilityStudyChk: {
                 el: new checkbox(config, {
-                    label: localization.en.capabilityStudyChk, 
+                    label: processCapabilityAnalysis.t('capabilityStudyChk'), 
 					no: "capabilityStudyChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -212,7 +174,7 @@ require(SixSigma)
 			target: {
                 el: new input(config, {
                     no: 'target',
-                    label: localization.en.target,
+                    label: processCapabilityAnalysis.t('target'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -224,7 +186,7 @@ require(SixSigma)
             },
 			futureProcessVar: {
                 el: new dstVariable(config, {
-                    label: localization.en.futureProcessVar,
+                    label: processCapabilityAnalysis.t('futureProcessVar'),
                     no: "futureProcessVar",
                     required: false,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -234,7 +196,7 @@ require(SixSigma)
 			mainTitle: {
                 el: new input(config, {
                     no: 'mainTitle',
-                    label: localization.en.mainTitle,
+                    label: processCapabilityAnalysis.t('mainTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -247,7 +209,7 @@ require(SixSigma)
 			subTitle: {
                 el: new input(config, {
                     no: 'subTitle',
-                    label: localization.en.subTitle,
+                    label: processCapabilityAnalysis.t('subTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -259,7 +221,7 @@ require(SixSigma)
             },
 			ciMeanChk: {
                 el: new checkbox(config, {
-                    label: localization.en.ciMeanChk, 
+                    label: processCapabilityAnalysis.t('ciMeanChk'), 
 					no: "ciMeanChk",
                     bs_type: "valuebox",
                     style: "mt-2 mb-1",
@@ -272,7 +234,7 @@ require(SixSigma)
 			sigma2: {
                 el: new input(config, {
                     no: 'sigma2',
-                    label: localization.en.sigma2,
+                    label: processCapabilityAnalysis.t('sigma2'),
                     placeholder: "",
                     required: false,
                     type: "numeric",
@@ -285,7 +247,7 @@ require(SixSigma)
 			ciMeanMainTitle: {
                 el: new input(config, {
                     no: 'ciMeanMainTitle',
-                    label: localization.en.ciMeanMainTitle,
+                    label: processCapabilityAnalysis.t('ciMeanMainTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -298,7 +260,7 @@ require(SixSigma)
 			ciMeanSubTitle: {
                 el: new input(config, {
                     no: 'ciMeanSubTitle',
-                    label: localization.en.ciMeanSubTitle,
+                    label: processCapabilityAnalysis.t('ciMeanSubTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -326,13 +288,22 @@ require(SixSigma)
 					objects.ciMeanMainTitle.el.content,
 					objects.ciMeanSubTitle.el.content],
             nav: {
-                name: localization.en.navigation,
+                name: processCapabilityAnalysis.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: processCapabilityAnalysis.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: processCapabilityAnalysis.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new processCapabilityAnalysis().render()
+
+module.exports = {
+    render: () => new processCapabilityAnalysis().render()
+}

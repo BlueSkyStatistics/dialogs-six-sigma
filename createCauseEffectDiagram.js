@@ -1,37 +1,15 @@
 
 
-var localization = {
-    en: {
-        title: "Cause and Effect Diagram",
-        navigation: "Cause and Effect",
-        effectName: "A short character string that represents the effect to analyse",
-		mainTitle: "Six Sigma Cause-and-effect Diagram Title",
-		subTitle: "Cause-and-effect Diagram Footer Title (normally SixSigma project name)",
-		independent: "Cause Catagories",
-		
-		help: {
-            title: "Cause and Effect Diagram",
-            r_help: "help(ss.ceDiag, package = SixSigma)",
-			body: `
-				<b>Description</b></br>
-				ceDiag function to create a Cause and Effect diagram by cause group
-				<br/>
-				<br/>
-				For the detail help - use R help(ss.ceDiag, package = SixSigma)
-				<br/>
-				<br/>
-				To try this, you may use the sample dataset file called cause_and_effect_table.xlsx. Open the file in the data grid with file open menu
-				<br/>
-			`
-		},
-	}
-}
+
 
 class createCauseEffectDiagram extends baseModal {
+    static dialogId = 'createCauseEffectDiagram'
+    static t = baseModal.makeT(createCauseEffectDiagram.dialogId)
+
     constructor() {
         var config = {
-            id: "createCauseEffectDiagram",
-            label: localization.en.title,
+            id: createCauseEffectDiagram.dialogId,
+            label: createCauseEffectDiagram.t('title'),
             modalType: "two",
             RCode: `
 			require(SixSigma)
@@ -52,7 +30,7 @@ class createCauseEffectDiagram extends baseModal {
             effectName: {
                 el: new input(config, {
                     no: 'effectName',
-                    label: localization.en.effectName,
+                    label: createCauseEffectDiagram.t('effectName'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -64,7 +42,7 @@ class createCauseEffectDiagram extends baseModal {
 			mainTitle: {
                 el: new input(config, {
                     no: 'mainTitle',
-                    label: localization.en.mainTitle,
+                    label: createCauseEffectDiagram.t('mainTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -76,7 +54,7 @@ class createCauseEffectDiagram extends baseModal {
 			subTitle: {
                 el: new input(config, {
                     no: 'subTitle',
-                    label: localization.en.subTitle,
+                    label: createCauseEffectDiagram.t('subTitle'),
                     placeholder: "",
                     required: true,
                     type: "character",
@@ -87,7 +65,7 @@ class createCauseEffectDiagram extends baseModal {
             },
 			independent: {
                 el: new dstVariableList(config, {
-                    label: localization.en.independent,
+                    label: createCauseEffectDiagram.t('independent'),
                     no: "independent",
                     required: true,
                     filter: "String|Numeric|Logical|Ordinal|Nominal|Scale",
@@ -102,13 +80,22 @@ class createCauseEffectDiagram extends baseModal {
 					objects.subTitle.el.content,
 					objects.independent.el.content],
             nav: {
-                name: localization.en.navigation,
+                name: createCauseEffectDiagram.t('navigation'),
                 icon: "icon-sixsigma",
                 modal: config.id
             }
         };
         super(config, objects, content);
-        this.help = localization.en.help;
+        
+        this.help = {
+            title: createCauseEffectDiagram.t('help.title'),
+            r_help: "help(data,package='utils')",
+            body: createCauseEffectDiagram.t('help.body')
+        }
+;
     }
 }
-module.exports.item = new createCauseEffectDiagram().render()
+
+module.exports = {
+    render: () => new createCauseEffectDiagram().render()
+}
