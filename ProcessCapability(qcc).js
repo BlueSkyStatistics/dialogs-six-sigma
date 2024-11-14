@@ -382,7 +382,7 @@ require(qcc)
                     extraction: "NoPrefix",
                 }), r: ['{{ var | safe}}']
             },
-			groupingNeededChk: {
+			/*groupingNeededChk: {
                 el: new checkbox(config, {
                     label: localization.en.groupingNeededChk, 
 					no: "groupingNeededChk",
@@ -393,7 +393,7 @@ require(qcc)
                     false_value: "FALSE",
 					newline: true,
                 })
-            },
+            },*/
 			groupingVariable: {
                 el: new dstVariable(config, {
                     label: localization.en.groupingVariable,
