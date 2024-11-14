@@ -62,7 +62,7 @@ var localization = {
 	}
 }
 
-class processCapabilityQcc extends baseModal {
+class processCapabilityLegacy extends baseModal {
     constructor() {
         var config = {
             id: "processCapabilityLegacy",
@@ -614,4 +614,4 @@ require(qcc)
         this.help = localization.en.help;
     }
 }
-module.exports.item = new processCapabilityQcc().render()
+module.exports.item = new processCapabilityLegacy().render()
