@@ -16,8 +16,8 @@ const nav = {
             "name": "MSA",
             "icon": "icon-sixsigma",
             "children": [
-                "./gageRnR(MSA)",
-                "./AttributeAgreement",
+                "./gageRnR",
+                "./attributeAgreement",
                 "./GageBiasAnalysis"
             ]
         },
@@ -42,7 +42,7 @@ const nav = {
         "./cusumChart",	
         "./ewmaChart",
         "./mqccChart",
-        "./multiVariChart"
+        "./MultiVariChart"
     ]
 }
 
