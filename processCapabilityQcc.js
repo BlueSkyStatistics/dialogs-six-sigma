@@ -62,10 +62,10 @@ var localization = {
 	}
 }
 
-class processCapabilityLegacy extends baseModal {
+class processCapabilityQcc extends baseModal {
     constructor() {
         var config = {
-            id: "processCapabilityLegacy",
+            id: "processCapabilityQcc",
             label: localization.en.title,
             modalType: "two",
             RCode:`
@@ -614,4 +614,4 @@ require(qcc)
         this.help = localization.en.help;
     }
 }
-module.exports.item = new processCapabilityLegacy().render()
+module.exports.item = new processCapabilityQcc().render()
