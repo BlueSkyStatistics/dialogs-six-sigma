@@ -1,11 +1,12 @@
-const nav = {
-    "name": "Six Sigma",
+let t = getT('menutoolbar')
+const nav = () => ({
+    "name": t('sixsigma_top_level_title'),// {ns: 'menutoolbar'}),
     "tab": "six_sigma",
     "buttons": [
         "./SixSigmaOverview",
         "./createCauseEffectDiagram",
         {
-            "name": "Pareto Chart",
+            "name": t('sixsigma_Pareto_Chart'),// {ns: 'menutoolbar'}),
             "icon": "icon-sixsigma",
             "children": [
                 "./paretoChart"
@@ -13,23 +14,23 @@ const nav = {
         },        
         "./lossFunctionAnalysis",
         {
-            "name": "MSA",
+            "name": t('sixsigma_MSA'),// {ns: 'menutoolbar'}),
             "icon": "icon-sixsigma",
             "children": [
-                "./gageRnR(MSA)",
-                "./AttributeAgreement",
+                "./gageRnR",
+                "./attributeAgreement",
                 "./GageBiasAnalysis"
             ]
         },
         {
-            "name": "Process Capability",
+            "name": t('sixsigma_Process_Capability'),// {ns: 'menutoolbar'}),
             "icon": "icon-sixsigma",
             "children": [
-				"./ProcessCapabilityQcc"
+				"./processCapabilityQcc"
             ]
         },
         {
-            "name": "Shewhart Charts",
+            "name": t('sixsigma_Shewhart_Charts'),// {ns: 'menutoolbar'}),
             "icon": "icon-sixsigma",
             "children": [
                 "./shewhartCharts1",
@@ -42,8 +43,11 @@ const nav = {
         "./cusumChart",	
         "./ewmaChart",
         "./mqccChart",
-        "./multiVariChart"
+        "./MultiVariChart"
     ]
-}
+})
 
-module.exports.nav = nav
+module.exports = {
+    nav: nav(),
+    render: () => nav()
+}
