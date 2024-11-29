@@ -1,6 +1,6 @@
 
 
-/*ProcessCapability(qcc)*/
+
 class processCapabilityQcc extends baseModal {
     static dialogId = 'processCapabilityQcc'
     static t = baseModal.makeT(processCapabilityQcc.dialogId)
