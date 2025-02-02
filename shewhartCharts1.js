@@ -1085,7 +1085,7 @@ if({{selected.ocCurvesChk | safe}} && length(trimws(c({{selected.variableControl
         
         this.help = {
             title: shewhartCharts1.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: shewhartCharts1.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: shewhartCharts1.t('help.body')
         }
 ;

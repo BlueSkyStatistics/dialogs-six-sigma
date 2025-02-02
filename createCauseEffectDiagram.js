@@ -89,7 +89,7 @@ class createCauseEffectDiagram extends baseModal {
         
         this.help = {
             title: createCauseEffectDiagram.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: createCauseEffectDiagram.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: createCauseEffectDiagram.t('help.body')
         }
 ;

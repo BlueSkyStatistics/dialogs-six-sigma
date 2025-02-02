@@ -223,7 +223,7 @@ if(!is.null(xstats))
         
         this.help = {
             title: paretoChart.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: paretoChart.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: paretoChart.t('help.body')
         }
 ;

@@ -213,7 +213,7 @@ require(SixSigma)
         
         this.help = {
             title: gageRnR.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: gageRnR.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: gageRnR.t('help.body')
         }
 ;

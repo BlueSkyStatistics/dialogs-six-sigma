@@ -306,7 +306,7 @@ class mqccChart extends baseModal {
         
         this.help = {
             title: mqccChart.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: mqccChart.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: mqccChart.t('help.body')
         }
 ;

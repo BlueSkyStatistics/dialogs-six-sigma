@@ -666,7 +666,7 @@ if(!is.null(plot_mat))
         
         this.help = {
             title: attributeAgreement.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: attributeAgreement.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: attributeAgreement.t('help.body')
         }
 ;

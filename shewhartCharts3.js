@@ -827,7 +827,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
         
         this.help = {
             title: shewhartCharts3.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: shewhartCharts3.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: shewhartCharts3.t('help.body')
         }
 ;

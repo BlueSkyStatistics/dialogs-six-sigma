@@ -266,7 +266,7 @@ cat("Charts selected: Cusum")
         
         this.help = {
             title: cusumChart.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: cusumChart.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: cusumChart.t('help.body')
         }
 ;

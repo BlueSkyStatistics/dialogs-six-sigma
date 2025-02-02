@@ -961,7 +961,7 @@ if({{selected.ocCurvesChk | safe}} && !is.null(u.spc.qcc.objects)){
         
         this.help = {
             title: shewhartCharts2.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: shewhartCharts2.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: shewhartCharts2.t('help.body')
         }
 ;

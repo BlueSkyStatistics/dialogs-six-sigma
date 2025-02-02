@@ -253,7 +253,7 @@ require(ggplot2)
         
         this.help = {
             title: GageBiasAnalysis.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: GageBiasAnalysis.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: GageBiasAnalysis.t('help.body')
         }
 ;

@@ -129,7 +129,7 @@ class lossFunctionAnalysis extends baseModal {
         
         this.help = {
             title: lossFunctionAnalysis.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: lossFunctionAnalysis.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: lossFunctionAnalysis.t('help.body')
         }
 ;

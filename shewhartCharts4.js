@@ -1070,7 +1070,7 @@ if(!is.null(xbar.one.IMR.spc.qcc.objects))
         
         this.help = {
             title: shewhartCharts4.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: shewhartCharts4.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: shewhartCharts4.t('help.body')
         }
 ;

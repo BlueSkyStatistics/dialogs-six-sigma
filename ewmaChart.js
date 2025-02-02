@@ -296,7 +296,7 @@ selectedData = NULL
         
         this.help = {
             title: ewmaChart.t('help.title'),
-            r_help: "help(data,package='utils')",
+            r_help: ewmaChart.t('help.r_help'),  //r_help: "help(data,package='utils')",
             body: ewmaChart.t('help.body')
         }
 ;
