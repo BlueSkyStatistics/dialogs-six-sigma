@@ -19,7 +19,7 @@ class attributeAgreement extends baseModal {
             RCode:`
 require(irr)  
 
-modified.kappam.fleiss <- function (ratings, exact = FALSE, detail = FALSE, levels =c())
+modified.kappam.fleiss <<- function (ratings, exact = FALSE, detail = FALSE, levels =c())
 {
     ratings <- as.matrix(na.omit(ratings))
     ns <- nrow(ratings)
@@ -105,7 +105,7 @@ modified.kappam.fleiss <- function (ratings, exact = FALSE, detail = FALSE, leve
     return(rval)
 }
 
-disagreementStat <- function(response_df)
+disagreementStat <<- function(response_df)
 {
 	#print(response_df)
 	
@@ -156,7 +156,7 @@ disagreementStat <- function(response_df)
 
 }
 
-summaryDisagreement <- function(response_list, reference)
+summaryDisagreement <<- function(response_list, reference)
 {
 	reference = as.character(reference)
 	samples = length(reference)
@@ -194,7 +194,7 @@ summaryDisagreement <- function(response_list, reference)
 	invisible(return(disagreement_df))
 }
 
-agreementCI <- function(response_df, alpha = 0.95)
+agreementCI <<- function(response_df, alpha = 0.95)
 {
 	#Rows with all matched
 
@@ -265,7 +265,7 @@ agreementCI <- function(response_df, alpha = 0.95)
 	invisible(return(c(m=m,N=N,LL=LL,UL=UL)))
 }
 
-plotAgreemnt <- function(df, main_title = c())
+plotAgreemnt <<- function(df, main_title = c())
 {
 	ggplot(df, aes(x=Appraiser, y=Percentage, group = Appraiser, label= Percentage, color=Appraiser )) + 
 		  geom_line(size = 2) + 
@@ -279,7 +279,7 @@ plotAgreemnt <- function(df, main_title = c())
 		  ylab("Percentage")
 }
 
-BSkyAttributeAgreementAnalysis <- function(part, operator, response, reference = c(), alpha = 0.95)
+BSkyAttributeAgreementAnalysis <<- function(part, operator, response, reference = c(), alpha = 0.95)
 {
 	orig_part = part
 	orig_operator = operator

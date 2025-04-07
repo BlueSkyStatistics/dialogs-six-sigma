@@ -22,7 +22,7 @@ require(dplyr)
 
 require(ggplot2)
 
-multiVariGroupingPlot <- function(data, x, y, group, color1 = "blue", color2 = "black", chart_title = "MultiVari Chart") {
+multiVariGroupingPlot <<- function(data, x, y, group, color1 = "blue", color2 = "black", chart_title = "MultiVari Chart") {
 	
 	  data = data[,c(x,y,group)]
 	  

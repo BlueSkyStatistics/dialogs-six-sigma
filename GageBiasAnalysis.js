@@ -70,7 +70,7 @@ require(ggplot2)
 
 		pvals = c()
 
-		calulatePvalues <- function()
+		calulatePvalues <<- function()
 		{
 			pvalues = c()
 			lapply(split(cbind({{dataset.name}},GageResp = GageResp), factor({{dataset.name}}\${{selected.variableRefSelcted | safe}})), 
