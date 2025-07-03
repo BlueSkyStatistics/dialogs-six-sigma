@@ -102,7 +102,7 @@ require(ggplot2)
 
 		mean_bias <- cbind({{dataset.name}},GageBias = GageBias) %>% 
 				group_by({{selected.variableRefSelcted | safe}}) %>% 
-				summarise("Avg Bias" = mean(GageBias))
+				dplyr::summarise("Avg Bias" = mean(GageBias))
 		mean_bias = rbind(mean_bias, c("Overall", mean(GageBias)))
 
 		pvals = c()
