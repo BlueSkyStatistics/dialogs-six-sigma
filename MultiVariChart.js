@@ -33,7 +33,7 @@ multiVariGroupingPlot <<- function(data, x, y, group, color1 = "blue", color2 = 
 	
 	  means <- data %>%
 		group_by(x) %>%
-		summarize(y = mean(y, na.rm = TRUE))
+		dplyr::summarize(y = mean(y, na.rm = TRUE))
 	
 	  mean_y_range <- range(means$y, na.rm = TRUE)
 	  offset_mean_text_y <- (mean_y_range[2] - mean_y_range[1]) * c({{selected.pctMeanRangeAsYoffset | safe}}) 
