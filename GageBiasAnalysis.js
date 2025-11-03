@@ -64,7 +64,7 @@ require(ggplot2)
 				BSkyFormat(outputTableIndex = c(3,1), coefConfInt = {{selected.alpha | safe}}, outputTableRenames=c("Gage Linearity - Coefficients"))
 
 		mean_bias <- cbind({{dataset.name}},GageBias = GageBias) %>% 
-				group_by({{selected.variableRefSelcted | safe}}) %>% 
+				dplyr::group_by({{selected.variableRefSelcted | safe}}) %>% 
 				dplyr::summarise("Avg Bias" = mean(GageBias))
 		mean_bias = rbind(mean_bias, c("Overall", mean(GageBias)))
 

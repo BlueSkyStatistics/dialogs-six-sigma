@@ -32,7 +32,7 @@ multiVariGroupingPlot <<- function(data, x, y, group, color1 = "blue", color2 = 
 	  data <- dplyr::rename(data, "x" = all_of(x), "y" = all_of(y), "grp" = all_of(group))
 	
 	  means <- data %>%
-		group_by(x) %>%
+		dplyr::group_by(x) %>%
 		dplyr::summarize(y = mean(y, na.rm = TRUE))
 	
 	  mean_y_range <- range(means$y, na.rm = TRUE)
