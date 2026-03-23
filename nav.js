@@ -12,13 +12,6 @@ const nav = () => ({
     "buttons": [
         "./SixSigmaOverview",
         "./createCauseEffectDiagram",
-        {
-            "name": t('sixsigma_Pareto_Chart'),// {ns: 'menutoolbar'}),
-            "icon": "icon-sixsigma",
-            "children": [
-                "./paretoChart"
-            ]
-        },        
         "./lossFunctionAnalysis",
         {
             "name": t('sixsigma_MSA'),// {ns: 'menutoolbar'}),
