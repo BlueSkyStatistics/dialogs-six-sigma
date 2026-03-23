@@ -38,6 +38,13 @@ const nav = {
 				
             ]
         },
+	    {
+			"name": "Reliability",
+			"icon": "icon-sixsigma",
+			"children": [
+			
+			]
+		},		
         "./cusumChart",	
         "./ewmaChart",
         "./mqccChart"
