@@ -40,6 +40,13 @@ const nav = () => ({
 				
             ]
         },
+	    {
+			"name": t('sixsigmapro_Reliability'),
+			"icon": "icon-sixsigma",
+			"children": [
+			
+			]
+		},			
         "./cusumChart",	
         "./ewmaChart",
         "./mqccChart"
