@@ -49,8 +49,7 @@ const nav = () => ({
         },
         "./cusumChart",	
         "./ewmaChart",
-        "./mqccChart",
-        "./MultiVariChart"
+        "./mqccChart"
     ]
 })
 
