@@ -32,7 +32,7 @@ const nav = {
             ]
         },
 	    {
-			"id": "menu-sixsigma-reliability-pro",
+			"id": "menu-sixsigma-reliability",
 			"icon": "icon-sixsigma",
 			"children": [
 
